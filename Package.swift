@@ -1,10 +1,14 @@
 // swift-tools-version: 5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
+
 import PackageDescription
 
 
-let commonDependencies: [Target.Dependency] = [.product(name: "ArgumentParser", package: "swift-argument-parser")]
+let commonDependencies: [Target.Dependency] = [
+    .product(name: "ArgumentParser", package: "swift-argument-parser"),
+    .target(name: "Shared")
+]
 
 
 let package: Package = Package(
@@ -25,6 +29,7 @@ let package: Package = Package(
     ],
 
     targets: [
+        .target(name: "Shared"),
         .executableTarget(name: "2022-01-calorie-counting",    dependencies: commonDependencies, path: "Sources/2022/01"),
         .executableTarget(name: "2022-01-rock-paper-scissors", dependencies: commonDependencies, path: "Sources/2022/02")
     ]
