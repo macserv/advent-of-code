@@ -1,7 +1,7 @@
 //
 //  Sequence+Sum.swift
 //  
-//  Created by Matthew Judy on 12/2/22.
+//  Created by Matthew Judy on 2022-12-01.
 //
 
 import Foundation

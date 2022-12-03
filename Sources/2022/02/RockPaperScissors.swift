@@ -1,7 +1,7 @@
 //
 //  RockPaperScissors.swift
 //
-//  Created by Matthew Judy on 12/2/22.
+//  Created by Matthew Judy on 2022-12-02.
 //
 
 
@@ -258,8 +258,6 @@ struct Match
 
 extension RockPaperScissors
 {
-    var input: FileHandle { FileHandle.standardInput }
-
     mutating func run() async throws
     {
         var total: Int = 0
