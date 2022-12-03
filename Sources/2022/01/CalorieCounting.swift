@@ -84,7 +84,7 @@ import Shared
  those Elves carrying in total?
 */
 @main
-struct CalorieCounting: AsyncParsableCommand
+struct CalorieCounting: ParsableCommand
 {
     @Option(help: "The number of elves (sorted by their inventory's caloric content) to aggregate for the result.")
     var top: Int = 1
@@ -111,7 +111,7 @@ struct Elf
 
 extension CalorieCounting
 {
-    mutating func run() async throws
+    mutating func run() throws
     {
         var elves     : [Elf]    = []
         var inventory : [Edible] = []

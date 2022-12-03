@@ -10,14 +10,6 @@ import Foundation
 import Shared
 
 
-/// <#Enumeration for argument which activates "Part Two" behavior#>
-enum Mode: String, ExpressibleByArgument, CaseIterable
-{
-    case modeA
-    case modeB
-}
-
-
 /**
  Day 3: <#Challenge Name#>
 
@@ -26,8 +18,15 @@ enum Mode: String, ExpressibleByArgument, CaseIterable
  <#Challenge Documentation#>
  */
 @main
-struct <#ChallengeName#>: AsyncParsableCommand
+struct <#ChallengeName#>: ParsableCommand
 {
+    /// <#Enumeration for argument which activates "Part Two" behavior#>
+    enum Mode: String, ExpressibleByArgument, CaseIterable
+    {
+        case modeA
+        case modeB
+    }
+
     @Option(help: "<#Argument used to activate “Part Two” behavior.#>")
     var mode: Mode
 }
@@ -37,7 +36,7 @@ struct <#ChallengeName#>: AsyncParsableCommand
 
 extension <#ChallengeName#>
 {
-    mutating func run() async throws
+    mutating func run() throws
     {
         while let inputLine = readLine()
         {

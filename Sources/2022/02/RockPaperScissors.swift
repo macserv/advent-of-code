@@ -117,16 +117,15 @@ import Shared
  Following the Elf's instructions for the second column, what would your total
  score be if everything goes exactly according to your strategy guide?
  */
-enum MoveInterpretation: String, ExpressibleByArgument, CaseIterable
-{
-    case hand
-    case outcome
-}
-
-
 @main
-struct RockPaperScissors: AsyncParsableCommand
+struct RockPaperScissors: ParsableCommand
 {
+    enum MoveInterpretation: String, ExpressibleByArgument, CaseIterable
+    {
+        case hand
+        case outcome
+    }
+
     @Option(help: "Specifies how your move identifier (X, Y, Z) should be interpreted: as a 'hand' (rock, paper, scissors) or an 'outcome' (loss, draw, win).")
     var moveInterpretation: MoveInterpretation
 }
@@ -243,7 +242,7 @@ struct Match
     }
 
 
-    init(matchInput: String, interpretation: MoveInterpretation)
+    init(matchInput: String, interpretation: RockPaperScissors.MoveInterpretation)
     {
         let identifiers = matchInput.split(separator: " ").map(String.init)
 
@@ -258,7 +257,7 @@ struct Match
 
 extension RockPaperScissors
 {
-    mutating func run() async throws
+    mutating func run() throws
     {
         var total: Int = 0
 
