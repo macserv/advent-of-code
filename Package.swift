@@ -23,6 +23,7 @@ let package: Package = Package(
         .executable(name: "calorie-counting",        targets: ["2022-01"]),
         .executable(name: "rock-paper-scissors",     targets: ["2022-02"]),
         .executable(name: "rucksack-reorganization", targets: ["2022-03"]),
+        .executable(name: "camp-cleanup",            targets: ["2022-04"]),
     ],
 
     dependencies: [
@@ -34,5 +35,6 @@ let package: Package = Package(
         .executableTarget(name: "2022-01", dependencies: commonDependencies, path: "Sources/2022/01"),
         .executableTarget(name: "2022-02", dependencies: commonDependencies, path: "Sources/2022/02"),
         .executableTarget(name: "2022-03", dependencies: commonDependencies, path: "Sources/2022/03"),
+        .executableTarget(name: "2022-04", dependencies: commonDependencies, path: "Sources/2022/04"),
     ]
 )
