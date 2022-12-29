@@ -180,11 +180,11 @@ extension SupplyStacks
         let moveLinePattern  = /move (\d+) from (\d+) to (\d+)/
         var crateStacks      = Array<CrateStack>()
 
-        while let line = readLine()
+        while let inputLine = readLine()
         {
-            if let _ = line.wholeMatch(of: crateLinePattern)
+            if let _ = inputLine.wholeMatch(of: crateLinePattern)
             {
-                line.every(from: line.index(line.startIndex, offsetBy: 1), nth: 4).map
+                inputLine.every(from: inputLine.index(inputLine.startIndex, offsetBy: 1), nth: 4).map
                 {
                     ($0 == " ") ? nil : $0
                 }
@@ -206,7 +206,7 @@ extension SupplyStacks
                 continue
             }
 
-            if let moveMatch = line.wholeMatch(of: moveLinePattern)
+            if let moveMatch = inputLine.wholeMatch(of: moveLinePattern)
             {
                 let moveCount   : Int = Int(moveMatch.1)!
                 let source      : Int = (Int(moveMatch.2)! - 1)
