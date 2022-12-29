@@ -10,6 +10,10 @@ let commonDependencies: [Target.Dependency] = [
     .target(name: "Shared")
 ]
 
+let commonSettings: [SwiftSetting] = [
+    .unsafeFlags(["-enable-bare-slash-regex"])
+]
+
 
 let package: Package = Package(
 
@@ -24,17 +28,19 @@ let package: Package = Package(
         .executable(name: "rock-paper-scissors",     targets: ["2022-02"]),
         .executable(name: "rucksack-reorganization", targets: ["2022-03"]),
         .executable(name: "camp-cleanup",            targets: ["2022-04"]),
+        .executable(name: "supply-stacks",           targets: ["2022-05"]),
     ],
 
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.0")
+        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMajor(from: "1.2.0")),
     ],
 
     targets: [
         .target(name: "Shared"),
-        .executableTarget(name: "2022-01", dependencies: commonDependencies, path: "Sources/2022/01"),
-        .executableTarget(name: "2022-02", dependencies: commonDependencies, path: "Sources/2022/02"),
-        .executableTarget(name: "2022-03", dependencies: commonDependencies, path: "Sources/2022/03"),
-        .executableTarget(name: "2022-04", dependencies: commonDependencies, path: "Sources/2022/04"),
+        .executableTarget(name: "2022-01", dependencies: commonDependencies, path: "Sources/2022/01", swiftSettings: commonSettings),
+        .executableTarget(name: "2022-02", dependencies: commonDependencies, path: "Sources/2022/02", swiftSettings: commonSettings),
+        .executableTarget(name: "2022-03", dependencies: commonDependencies, path: "Sources/2022/03", swiftSettings: commonSettings),
+        .executableTarget(name: "2022-04", dependencies: commonDependencies, path: "Sources/2022/04", swiftSettings: commonSettings),
+        .executableTarget(name: "2022-05", dependencies: commonDependencies, path: "Sources/2022/05", swiftSettings: commonSettings),
     ]
 )

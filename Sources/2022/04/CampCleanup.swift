@@ -106,7 +106,6 @@ import Shared
 @main
 struct CampCleanup: ParsableCommand
 {
-    /// Enumeration for argument which activates "Part Two" behavior
     enum OverlapCheckMode: String, ExpressibleByArgument, CaseIterable
     {
         case partial
