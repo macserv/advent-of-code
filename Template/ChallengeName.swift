@@ -40,7 +40,7 @@ extension <#ChallengeName#>
     {
         while let inputLine = readLine()
         {
-            print("inputLine")
+            print("\(inputLine)")
         }
     }
 }
