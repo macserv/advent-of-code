@@ -13,3 +13,12 @@ extension Sequence where Element: AdditiveArithmetic
 }
 
 
+extension Sequence where Element: Hashable
+{
+    public var isDistinct: Bool
+    {
+        var set = Set<Element>()
+
+        return !(self.contains { !(set.insert($0).inserted) })
+    }
+}
