@@ -11,7 +11,7 @@ import Shared
 
 
 /**
- Day 3: Tuning Trouble
+ Day 6: Tuning Trouble
 
  # Part One
 

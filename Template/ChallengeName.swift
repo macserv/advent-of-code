@@ -11,7 +11,7 @@ import Shared
 
 
 /**
- Day 3: <#Challenge Name#>
+ Day <#Day Number#> : <#Challenge Name#>
 
  # Part One
 
