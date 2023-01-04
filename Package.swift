@@ -30,6 +30,7 @@ let package: Package = Package(
         .executable(name: "camp-cleanup",            targets: ["2022-04"]),
         .executable(name: "supply-stacks",           targets: ["2022-05"]),
         .executable(name: "tuning-trouble",          targets: ["2022-06"]),
+        .executable(name: "no-space-left-on-device", targets: ["2022-07"]),
     ],
 
     dependencies: [
@@ -44,5 +45,6 @@ let package: Package = Package(
         .executableTarget(name: "2022-04", dependencies: commonDependencies, path: "Sources/2022/04", swiftSettings: commonSettings),
         .executableTarget(name: "2022-05", dependencies: commonDependencies, path: "Sources/2022/05", swiftSettings: commonSettings),
         .executableTarget(name: "2022-06", dependencies: commonDependencies, path: "Sources/2022/06", swiftSettings: commonSettings),
+        .executableTarget(name: "2022-07", dependencies: commonDependencies, path: "Sources/2022/07", swiftSettings: commonSettings),
     ]
 )
