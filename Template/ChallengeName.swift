@@ -1,7 +1,7 @@
 //
 //  <#ChallengeName#>.swift
 //
-//  Created by Author on <#YYYY-MM-DD#>.
+//  Created by Matthew Judy on <#YYYY-MM-DD#>.
 //
 
 

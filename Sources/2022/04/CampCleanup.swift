@@ -1,7 +1,7 @@
 //
 //  CampCleanup.swift
 //
-//  Created by Author on 2022-12-04.
+//  Created by Matthew Judy on 2022-12-04.
 //
 
 
