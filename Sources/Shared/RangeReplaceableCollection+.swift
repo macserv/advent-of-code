@@ -1,7 +1,7 @@
 //
-//  RangeReplaceableCollection+Rotate.swift
+//  RangeReplaceableCollection+Every.swift
 //
-//  Created by Matthew Judy on 2022-12-02.
+//  Created by Matthew Judy on 12/26/22.
 //
 
 import Foundation
@@ -9,6 +9,12 @@ import Foundation
 
 extension RangeReplaceableCollection
 {
+    public func every(from: Index? = nil, through: Index? = nil, nth: Int) -> Self
+    {
+        return Self(stride(from: from, through: through, by: nth))
+    }
+
+
     public func rotatedLeft(by distance: Int) -> SubSequence
     {
         // Handle subarrays, which don't necessarily start at 0.
@@ -18,6 +24,7 @@ extension RangeReplaceableCollection
         return (self[spliceIndex...] + self[..<spliceIndex])
     }
 
+
     public func rotatedRight(by distance: Int) -> SubSequence
     {
         // As above, so below.
@@ -25,3 +32,4 @@ extension RangeReplaceableCollection
         return (self[spliceIndex...] + self[..<spliceIndex])
     }
 }
+
