@@ -23,28 +23,19 @@ let package: Package = Package(
         .macOS(.v13)
     ],
 
-    products: [
-        .executable(name: "calorie-counting",        targets: ["2022-01"]),
-        .executable(name: "rock-paper-scissors",     targets: ["2022-02"]),
-        .executable(name: "rucksack-reorganization", targets: ["2022-03"]),
-        .executable(name: "camp-cleanup",            targets: ["2022-04"]),
-        .executable(name: "supply-stacks",           targets: ["2022-05"]),
-        .executable(name: "tuning-trouble",          targets: ["2022-06"]),
-        .executable(name: "no-space-left-on-device", targets: ["2022-07"]),
-    ],
-
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMajor(from: "1.2.0")),
+        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMajor(from: "1.2.0"))
     ],
 
     targets: [
         .target(name: "Shared"),
-        .executableTarget(name: "2022-01", dependencies: commonDependencies, path: "Sources/2022/01", swiftSettings: commonSettings),
-        .executableTarget(name: "2022-02", dependencies: commonDependencies, path: "Sources/2022/02", swiftSettings: commonSettings),
-        .executableTarget(name: "2022-03", dependencies: commonDependencies, path: "Sources/2022/03", swiftSettings: commonSettings),
-        .executableTarget(name: "2022-04", dependencies: commonDependencies, path: "Sources/2022/04", swiftSettings: commonSettings),
-        .executableTarget(name: "2022-05", dependencies: commonDependencies, path: "Sources/2022/05", swiftSettings: commonSettings),
-        .executableTarget(name: "2022-06", dependencies: commonDependencies, path: "Sources/2022/06", swiftSettings: commonSettings),
-        .executableTarget(name: "2022-07", dependencies: commonDependencies, path: "Sources/2022/07", swiftSettings: commonSettings),
+        .executableTarget(name: "calorie-counting",        dependencies: commonDependencies, path: "Sources/2022/01", swiftSettings: commonSettings),
+        .executableTarget(name: "rock-paper-scissors",     dependencies: commonDependencies, path: "Sources/2022/02", swiftSettings: commonSettings),
+        .executableTarget(name: "rucksack-reorganization", dependencies: commonDependencies, path: "Sources/2022/03", swiftSettings: commonSettings),
+        .executableTarget(name: "camp-cleanup",            dependencies: commonDependencies, path: "Sources/2022/04", swiftSettings: commonSettings),
+        .executableTarget(name: "supply-stacks",           dependencies: commonDependencies, path: "Sources/2022/05", swiftSettings: commonSettings),
+        .executableTarget(name: "tuning-trouble",          dependencies: commonDependencies, path: "Sources/2022/06", swiftSettings: commonSettings),
+        .executableTarget(name: "no-space-left-on-device", dependencies: commonDependencies, path: "Sources/2022/07", swiftSettings: commonSettings),
+        .executableTarget(name: "treetop-tree-house",      dependencies: commonDependencies, path: "Sources/2022/08", swiftSettings: commonSettings),
     ]
 )
