@@ -1,5 +1,5 @@
 //
-//  ClosedRange+Covers.swift
+//  ClosedRange+Overlap.swift
 //
 //  Created by Matthew Judy on 12/4/22.
 //

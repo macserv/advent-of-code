@@ -1,5 +1,5 @@
 //
-//  RangeReplaceableCollection+Every.swift
+//  RangeReplaceableCollection+.swift
 //
 //  Created by Matthew Judy on 12/26/22.
 //

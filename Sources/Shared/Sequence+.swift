@@ -1,5 +1,5 @@
 //
-//  Sequence+Sum.swift
+//  Sequence+.swift
 //  
 //  Created by Matthew Judy on 2022-12-01.
 //
@@ -22,3 +22,4 @@ extension Sequence where Element: Hashable
         return !(self.contains { !(set.insert($0).inserted) })
     }
 }
+
