@@ -18,7 +18,7 @@ import Shared
  <#Challenge Documentation#>
  */
 @main
-struct <#ChallengeName#>: ParsableCommand
+struct <#ChallengeName#>: AsyncParsableCommand
 {
     /// <#Enumeration for argument which activates "Part Two" behavior#>
     enum Mode: String, ExpressibleByArgument, CaseIterable
@@ -36,12 +36,10 @@ struct <#ChallengeName#>: ParsableCommand
 
 extension <#ChallengeName#>
 {
-    mutating func run() throws
+    mutating func run() async throws
     {
-        while let inputLine = readLine()
-        {
-            print("\(inputLine)")
-        }
+        let input: AsyncLineSequence = FileHandle.standardInput.bytes.lines // URL.homeDirectory.appending(path: "Desktop/input.txt").lines
+        try await input.reduce(into: []) { $0.append($1) }.forEach { print($0) }
     }
 }
 
