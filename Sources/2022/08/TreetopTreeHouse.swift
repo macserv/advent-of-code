@@ -189,9 +189,9 @@ extension TreetopTreeHouse
 
     mutating func run() async throws
     {
-        let input      = FileHandle.standardInput.bytes
-        let rows       : [[Int]]  = try await input.lines.reduce(into: [[Int]]()) { $0.append($1.compactMap { Int(String($0))! }) }
-        let columns    : [[Int]]  = rows[0].enumerated().map { rows[column: $0.0] }
+        let input   : AsyncLineSequence = FileHandle.standardInput.bytes.lines
+        let rows    : [[Int]]           = try await input.reduce(into: [[Int]]()) { $0.append($1.integers) }
+        let columns : [[Int]]           = rows[0].enumerated().map { rows[column: $0.0] }
 
         switch self.mode
         {
