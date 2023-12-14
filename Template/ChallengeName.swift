@@ -18,15 +18,22 @@ import Shared
 @main
 struct <#ChallengeName#>: AsyncParsableCommand
 {
-    /// <#Enumeration for argument which activates "Part Two" behavior#>
-    enum Mode: String, ExpressibleByArgument, CaseIterable
-    {
-        case modeA
-        case modeB
-    }
+//    /// Adds a `--mode` option to the command, which allows the command's logic
+//    /// to branch and handle requirements of either "Part One" or "Part Two".
+//    /// The option must be followed by a value from this enumeration.
+//    enum Mode: String, ExpressibleByArgument, CaseIterable
+//    {
+//        case <#modeA#>
+//        case <#modeB#>
+//    }
+//    @Option(help: "'<#modeA#>' or '<#modeB#>'")
+//    var mode: Mode
 
-    @Option(help: "<#Argument used to activate “Part Two” behavior.#>")
-    var mode: Mode
+//    /// Adds a flag to the command, named for the behavioral difference in
+//    /// "Part Two."  This allows the command's logic to branch and handle the
+//    /// requirements of either "Part One" or "Part Two".
+//    @Flag(help: "Search for both cardinal values ('one', 'two', ...) and integers.")
+//    var <#partTwoDifference#>: Bool = false
 }
 
 
