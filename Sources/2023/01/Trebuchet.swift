@@ -111,7 +111,7 @@ extension Trebuchet
 
     mutating func run() async throws
     {
-        let input:          AsyncLineSequence = FileHandle.standardInput.bytes.lines // URL.homeDirectory.appending(path: "Desktop/input.txt").lines
+        let input:          AsyncLineSequence = FileHandle.standardInput.bytes.lines
         let calibrationSum: Int               = try await input.reduce(0)
         {
             currentSum, inputLine in

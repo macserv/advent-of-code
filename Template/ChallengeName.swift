@@ -10,13 +10,11 @@ import Foundation
 import Shared
 
 
-/**
- Day <#Day Number#> : <#Challenge Name#>
-
- # Part One
-
- <#Challenge Documentation#>
- */
+/// Day <#Day Number#> : <#Challenge Name#>
+///
+/// # Part One
+///
+/// <#Challenge Documentation#>
 @main
 struct <#ChallengeName#>: AsyncParsableCommand
 {
