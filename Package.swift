@@ -44,5 +44,6 @@ let package: Package = Package(
         .executableTarget(name: "trebuchet",      dependencies: commonDependencies, path: "Sources/2023/01", swiftSettings: commonSettings),
         .executableTarget(name: "cube-conundrum", dependencies: commonDependencies, path: "Sources/2023/02", swiftSettings: commonSettings),
         .executableTarget(name: "gear-ratios",    dependencies: commonDependencies, path: "Sources/2023/03", swiftSettings: commonSettings),
+        .executableTarget(name: "scratchcards",   dependencies: commonDependencies, path: "Sources/2023/04", swiftSettings: commonSettings),
     ]
 )
