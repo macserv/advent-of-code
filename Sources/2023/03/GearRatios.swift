@@ -61,6 +61,7 @@ import Shared
 /// Of course, the actual engine schematic is much larger. **What is the sum of
 /// all of the part numbers in the engine schematic?**
 ///
+///
 @main
 struct GearRatios: AsyncParsableCommand
 {
@@ -83,14 +84,99 @@ struct GearRatios: AsyncParsableCommand
 }
 
 
+struct Part
+{
+    struct Symbol
+    {
+        struct Location: Equatable, CustomStringConvertible
+        {
+            let line        : Int
+            let column      : Int
+            var description : String { "(L:\(self.line), C:\(self.column)" }
+        }
+
+        let character : Character
+        let location  : Location
+    }
+
+    struct Identifier
+    {
+        let number : Int
+        let border : [Symbol.Location]
+    }
+
+    let symbol  : Symbol
+    let numbers : [Int]
+
+    init(symbol: Symbol, identifiers: [Identifier])
+    {
+        self.symbol  = symbol
+        self.numbers = identifiers.map(\.number)
+    }
+}
+
+
 // MARK: - Command Execution
 
 extension GearRatios
 {
     mutating func run() async throws
     {
-        let input: AsyncLineSequence = FileHandle.standardInput.bytes.lines // URL.homeDirectory.appending(path: "Desktop/input.txt").lines
-        try await input.reduce(into: []) { $0.append($1) }.forEach { print($0) }
+        let input: AsyncLineSequence = URL.homeDirectory.appending(path: "Desktop/input.txt").lines
+        let lines = try await input.reduce(into: [])
+        {
+            $0.append($1)
+        }
+
+        typealias FoundTokens = (symbols: [Part.Symbol], identifiers: [Part.Identifier])
+
+        let (symbols, identifiers) : FoundTokens = lines.enumerated().reduce(into: FoundTokens([], []))
+        {
+            foundTokens, lineIndexAndline in let (lineIndex, line) = lineIndexAndline
+
+            // Find symbols in line.
+            line.ranges(of: /[^\d\.]/).forEach
+            {
+                symbolRange in
+
+                let symbolIndex : Int = line.distance(from: line.startIndex, to: symbolRange.lowerBound)
+
+                foundTokens.symbols.append(Part.Symbol(character: line[symbolRange].first!, location: Part.Symbol.Location(line: lineIndex, column: symbolIndex)))
+            }
+            
+            // Find identifiers (integers) in line, and the border around them.
+            line.ranges(of: /\d+/).forEach
+            {
+                idRange in
+
+                let idStartIndex    : Int        = line.distance(from: line.startIndex, to: idRange.lowerBound)
+                let idEndIndex      : Int        = line.distance(from: line.startIndex, to: idRange.upperBound)
+                let borderRange     : ClosedRange<Int> = ((idStartIndex - 1)...idEndIndex).clamped(to: (0...(line.count - 1)))
+
+                let startLocation   = Part.Symbol.Location(line: lineIndex, column: borderRange.lowerBound)
+                let endLocation     = Part.Symbol.Location(line: lineIndex, column: borderRange.upperBound)
+                let aboveLocations  : [Part.Symbol.Location] = borderRange.map { .init(line: (lineIndex - 1), column: $0) }
+                let belowLocations  : [Part.Symbol.Location] = borderRange.map { .init(line: (lineIndex + 1), column: $0) }
+                let borderLocations : [Part.Symbol.Location] = ( [startLocation, endLocation] + aboveLocations + belowLocations )
+
+                foundTokens.identifiers.append(Part.Identifier(number: Int(line[idRange])!, border: borderLocations))
+            }
+        }
+
+        let parts: [Part] = symbols.reduce(into: [])
+        {
+            parts, symbol in
+            parts.append( Part(
+                symbol: symbol,
+                identifiers: identifiers.filter {
+                    $0.border.contains(symbol.location)
+                })
+            )
+        }
+
+        let partNumberSum: Int = parts.flatMap(\.numbers).reduce(0, +)
+
+        print(partNumberSum)
     }
 }
 
