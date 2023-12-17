@@ -18,16 +18,15 @@ import Shared
 @main
 struct <#ChallengeName#>: AsyncParsableCommand
 {
-//    /// Adds a `--mode` option to the command, which allows the command's logic
+//    /// Adds a "sub-command" argument to the command, which allows the logic
 //    /// to branch and handle requirements of either "Part One" or "Part Two".
-//    /// The option must be followed by a value from this enumeration.
+//    /// The argument must be a value from this enumeration.
 //    enum Mode: String, ExpressibleByArgument, CaseIterable
 //    {
 //        case <#modeA#>
 //        case <#modeB#>
 //    }
-//    @Option(help: "'<#modeA#>' or '<#modeB#>'")
-//    var mode: Mode
+//    @Argument var mode: Mode
 
 //    /// Adds a flag to the command, named for the behavioral difference in
 //    /// "Part Two."  This allows the command's logic to branch and handle the
