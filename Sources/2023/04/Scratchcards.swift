@@ -7,6 +7,7 @@
 
 import ArgumentParser
 import Foundation
+import RegexBuilder
 import Shared
 
 
@@ -87,24 +88,64 @@ import Shared
 /// Take a seat in the large pile of colorful cards.  **How many points are
 /// they worth in total?**
 ///
+/// # Part Two
+///
+/// Just as you're about to report your findings to the Elf, one of you
+/// realizes that the rules have actually been printed on the back of every
+/// card this whole time.
+///
+/// There's no such thing as "points". Instead, scratchcards only cause you to
+/// **win more scratchcards** equal to the number of winning numbers you have.
+///
+/// Specifically, you win **copies** of the scratchcards below the winning card
+/// equal to the number of matches.  So, if card 10 were to have 5 matching
+/// numbers, you would win one copy each of cards 11, 12, 13, 14, and 15.
+///
+/// Copies of scratchcards are scored like normal scratchcards and have the
+/// **same card number** as the card they copied.  So, if you win a copy of
+/// card 10 and it has 5 matching numbers, it would then win a copy of the same
+/// cards that the original card 10 won: cards 11, 12, 13, 14, and 15.  This
+/// process repeats until none of the copies cause you to win any more cards.
+/// (Cards will never make you copy a card past the end of the table.)
+///
+/// This time, the above example goes differently:
+///
+/// * Card 1 has four matching numbers, so you win one copy each of the next
+///     four cards: cards 2, 3, 4, and 5.
+/// * Your original card 2 has two matching numbers, so you win one copy each
+///     of cards 3 and 4.
+/// * Your copy of card 2 also wins one copy each of cards 3 and 4.
+/// * Your four instances of card 3 (one original and three copies) have two
+///     matching numbers, so you win **four** copies each of cards 4 and 5.
+/// * Your eight instances of card 4 (one original and seven copies) have one
+///     matching number, so you win **eight** copies of card 5.
+/// * Your fourteen instances of card 5 (one original and thirteen copies) have
+///     no matching numbers and win no more cards.
+/// * Your one instance of card 6 (one original) has no matching numbers and
+///     wins no more cards.
+///
+/// Once all of the originals and copies have been processed, you end up with
+/// `1` instance of card 1, `2` instances of card 2, `4` instances of card 3,
+/// `8` instances of card 4, `14` instances of card 5, and `1` instance of
+/// card 6.  In total, this example pile of scratchcards causes you to
+/// ultimately have `30` scratchcards!
+///
+/// Process all of the original and copied scratchcards until no more
+/// scratchcards are won. Including the original set of scratchcards,
+/// **how many total scratchcards do you end up with?**
+///
 @main
 struct Scratchcards: AsyncParsableCommand
 {
-//    /// Adds a "sub-command" argument to the command, which allows the logic
-//    /// to branch and handle requirements of either "Part One" or "Part Two".
-//    /// The argument must be a value from this enumeration.
-//    enum Mode: String, ExpressibleByArgument, CaseIterable
-//    {
-//        case <#modeA#>
-//        case <#modeB#>
-//    }
-//    @Argument var mode: Mode
-
-//    /// Adds a flag to the command, named for the behavioral difference in
-//    /// "Part Two."  This allows the command's logic to branch and handle the
-//    /// requirements of either "Part One" or "Part Two".
-//    @Flag(help: "Search for both cardinal values ('one', 'two', ...) and integers.")
-//    var <#partTwoDifference#>: Bool = false
+    /// Adds a "sub-command" argument to the command, which allows the logic
+    /// to branch and handle requirements of either "Part One" or "Part Two".
+    /// The argument must be a value from this enumeration.
+    enum Mode: String, ExpressibleByArgument, CaseIterable
+    {
+        case sumOfPointsWon
+        case countOfScratchcardsWon
+    }
+    @Argument var mode: Mode
 }
 
 
@@ -114,8 +155,100 @@ extension Scratchcards
 {
     mutating func run() async throws
     {
-        let input: AsyncLineSequence = FileHandle.standardInput.bytes.lines // URL.homeDirectory.appending(path: "Desktop/input.txt").lines
-        try await input.reduce(into: []) { $0.append($1) }.forEach { print($0) }
+        let input          : AsyncLineSequence = FileHandle.standardInput.bytes.lines
+        let winning        = Reference<Set<Int>>()
+        let yours          = Reference<Set<Int>>()
+        let scratchPattern = Regex
+        {
+            "Card"
+            OneOrMore(.whitespace)
+            OneOrMore(.digit)
+
+            ":"
+
+            TryCapture(as: winning)
+            {
+                OneOrMore
+                {
+                    OneOrMore(.whitespace)
+                    OneOrMore(.digit)
+                }
+            }
+            transform: { Set($0.split(separator: OneOrMore(.whitespace)).map { Int($0)! }) }
+
+            " |"
+
+            TryCapture(as: yours)
+            {
+                OneOrMore
+                {
+                    OneOrMore(.whitespace)
+                    OneOrMore(.digit)
+                }
+            }
+            transform: { Set($0.split(separator: OneOrMore(.whitespace)).map { Int($0)! }) }
+
+        }
+
+        switch (self.mode)
+        {
+            case .sumOfPointsWon:
+                let score: Int = try await input.reduce(0)
+                {
+                    guard let match          : Regex.Match = $1.wholeMatch(of: scratchPattern) else { return $0 }
+                    let       winningNumbers : Set<Int>    = match[winning]
+                    let       yourNumbers    : Set<Int>    = match[yours]
+                    let       scoringNumbers : Set<Int>    = yourNumbers.intersection(winningNumbers)
+                    guard let lastIndex      : Int         = scoringNumbers.lastIndex else { return $0 }
+
+                    return ( $0 + Int(pow(Double(2), Double(lastIndex))) )
+                }
+
+                print(score)
+                return
+
+
+            case .countOfScratchcardsWon:
+                var copyCounts : [Int] = []
+                let count      : Int = try await input.enumerated().reduce(0)
+                {
+                    count, lineIndexAndLine in let (lineIndex, line) = lineIndexAndLine
+
+                    guard let match          : Regex.Match = line.wholeMatch(of: scratchPattern) else { throw AteShit(whilst: .parsing, line) }
+                    let       winningNumbers : Set<Int>    = match[winning]
+                    let       yourNumbers    : Set<Int>    = match[yours]
+                    let       scoringNumbers : Set<Int>    = yourNumbers.intersection(winningNumbers)
+
+                    if ( copyCounts.count == lineIndex ) { copyCounts.append(0) }
+                    copyCounts[lineIndex] += 1
+
+                    Array<Int>(repeating: copyCounts[lineIndex], count: scoringNumbers.count).enumerated().forEach
+                    {
+                        forwardIndex, increment in
+
+                        let linesForward = (forwardIndex + 1)
+                        let targetIndex  = (lineIndex + linesForward)
+                        
+                        switch copyCounts.lastIndex!
+                        {
+                            case (targetIndex - 1):
+                                copyCounts.append(increment)
+
+                            case let last where last >= targetIndex:
+                                copyCounts[targetIndex] += increment
+
+                            default:
+                                fatalError()
+                        }
+                    }
+
+                    return (count + copyCounts[lineIndex])
+                }
+
+                print(count)
+                return
+        }
     }
 }
+
 
