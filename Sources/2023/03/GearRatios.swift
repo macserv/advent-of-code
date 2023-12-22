@@ -152,19 +152,14 @@ struct Part
 
 extension GearRatios
 {
+    typealias FoundTokens = (symbols: [Part.Symbol], identifiers: [Part.Identifier])
+
     mutating func run() async throws
     {
         let input: AsyncLineSequence = FileHandle.standardInput.bytes.lines
-        let lines = try await input.reduce(into: [])
+        let (symbols, identifiers) : FoundTokens = try await input.enumerated().reduce(into: FoundTokens([], []))
         {
-            $0.append($1)
-        }
-
-        typealias FoundTokens = (symbols: [Part.Symbol], identifiers: [Part.Identifier])
-
-        let (symbols, identifiers) : FoundTokens = lines.enumerated().reduce(into: FoundTokens([], []))
-        {
-            foundTokens, lineIndexAndline in let (lineIndex, line) = lineIndexAndline
+            foundTokens, lineIndexAndLine in let (lineIndex, line) = lineIndexAndLine
 
             // Find symbols in line.
             line.ranges(of: /[^\d\.]/).forEach
