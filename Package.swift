@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 
@@ -11,7 +11,10 @@ let commonDependencies: [Target.Dependency] = [
 ]
 
 let commonSettings: [SwiftSetting] = [
-    .unsafeFlags(["-enable-bare-slash-regex"])
+    .enableUpcomingFeature    ("BareSlashRegexLiterals"),
+    .enableUpcomingFeature    ("ForwardTrailingClosures"),
+    .enableUpcomingFeature    ("ExistentialAny"),
+    .enableExperimentalFeature("StrictConcurrency"),
 ]
 
 
@@ -20,11 +23,11 @@ let package: Package = Package(
     name: "AdventOfCode",
 
     platforms: [
-        .macOS(.v13)
+        .macOS(.v14)
     ],
 
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMajor(from: "1.3.0"))
+        .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.5.0"))
     ],
 
     targets: [
@@ -41,9 +44,12 @@ let package: Package = Package(
         .executableTarget(name: "treetop-tree-house",      dependencies: commonDependencies, path: "Sources/2022/08", swiftSettings: commonSettings),
 
         // 2023
-        .executableTarget(name: "trebuchet",      dependencies: commonDependencies, path: "Sources/2023/01", swiftSettings: commonSettings),
-        .executableTarget(name: "cube-conundrum", dependencies: commonDependencies, path: "Sources/2023/02", swiftSettings: commonSettings),
-        .executableTarget(name: "gear-ratios",    dependencies: commonDependencies, path: "Sources/2023/03", swiftSettings: commonSettings),
-        .executableTarget(name: "scratchcards",   dependencies: commonDependencies, path: "Sources/2023/04", swiftSettings: commonSettings),
+        .executableTarget(name: "trebuchet",                       dependencies: commonDependencies, path: "Sources/2023/01", swiftSettings: commonSettings),
+        .executableTarget(name: "cube-conundrum",                  dependencies: commonDependencies, path: "Sources/2023/02", swiftSettings: commonSettings),
+        .executableTarget(name: "gear-ratios",                     dependencies: commonDependencies, path: "Sources/2023/03", swiftSettings: commonSettings),
+        .executableTarget(name: "scratchcards",                    dependencies: commonDependencies, path: "Sources/2023/04", swiftSettings: commonSettings),
+        .executableTarget(name: "if-you-give-a-seed-a-fertilizer", dependencies: commonDependencies, path: "Sources/2023/05", swiftSettings: commonSettings),
+
+        // 2024
     ]
 )

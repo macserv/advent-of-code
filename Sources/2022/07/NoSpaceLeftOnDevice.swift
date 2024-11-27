@@ -201,7 +201,7 @@ class Directory: FilesystemItem
 
     var size: Int
     {
-        let allItems: [FilesystemItem] = (self.subdirectories + self.files)
+        let allItems: [any FilesystemItem] = (self.subdirectories + self.files)
         return allItems.map(\.size).sum()
     }
 
