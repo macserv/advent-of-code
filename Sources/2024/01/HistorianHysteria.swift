@@ -97,51 +97,64 @@ import Shared
 ///
 /// # Part Two
 ///
-/// Your analysis only confirmed what everyone feared: the two lists of location IDs are indeed very different.
+/// Your analysis only confirmed what everyone feared: the two lists of
+/// location IDs are indeed very different.
 ///
 /// Or are they?
 ///
-/// The Historians can't agree on which group made the mistakes or how to read most of the Chief's handwriting, but in the commotion you notice an interesting detail: a lot of location IDs appear in both lists! Maybe the other numbers aren't location IDs at all but rather misinterpreted handwriting.
+/// The Historians can't agree on which group made the mistakes **or** how to
+/// read most of the Chief's handwriting, but in the commotion you notice an
+/// interesting detail: a lot of location IDs appear in both lists!
+/// Maybe the other numbers aren't location IDs at all but rather
+/// misinterpreted handwriting.
 ///
-/// This time, you'll need to figure out exactly how often each number from the left list appears in the right list. Calculate a total similarity score by adding up each number in the left list after multiplying it by the number of times that number appears in the right list.
+/// This time, you'll need to figure out exactly how often each number from the
+/// left list appears in the right list.  Calculate a total **similarity score**
+/// by adding up each number in the left list after multiplying it by the
+/// number of times that number appears in the right list.
 ///
 /// Here are the same example lists again:
 ///
+///```
 /// 3   4
 /// 4   3
 /// 2   5
 /// 1   3
 /// 3   9
 /// 3   3
-/// For these example lists, here is the process of finding the similarity score:
+///```
 ///
-/// The first number in the left list is 3. It appears in the right list three times, so the similarity score increases by 3 * 3 = 9.
-/// The second number in the left list is 4. It appears in the right list once, so the similarity score increases by 4 * 1 = 4.
-/// The third number in the left list is 2. It does not appear in the right list, so the similarity score does not increase (2 * 0 = 0).
-/// The fourth number, 1, also does not appear in the right list.
-/// The fifth number, 3, appears in the right list three times; the similarity score increases by 9.
-/// The last number, 3, appears in the right list three times; the similarity score again increases by 9.
-/// So, for these example lists, the similarity score at the end of this process is 31 (9 + 4 + 0 + 0 + 9 + 9).
+/// For these example lists, here is the process of finding the similarity
+/// score:
 ///
-/// Once again consider your left and right lists. What is their similarity score?
+/// * The first number in the left list is `3`.  It appears in the right list
+///     three times, so the similarity score increases by `3 * 3 = `**`9`**.
+/// * The second number in the left list is 4.  It appears in the right list
+///     once, so the similarity score increases by `4 * 1 = `**`4`**.
+/// * The third number in the left list is `2`.  It does not appear in the
+///     right list, so the similarity score does not increase (`2 * 0 = 0`).
+/// * The fourth number, `1`, also does not appear in the right list.
+/// * The fifth number, `3`, appears in the right list three times; the
+///     similarity score increases by **`9`**.
+/// * The last number, `3`, appears in the right list three times; the
+///     similarity score again increases by **`9`**.
+/// * So, for these example lists, the similarity score at the end of this
+///     process is **`31`** (`9 + 4 + 0 + 0 + 9 + 9`).
+///
+/// Once again consider your left and right lists.  **What is their
+/// similarity score?**
 @main
 struct HistorianHysteria: AsyncParsableCommand
 {
-//    /// Adds a "sub-command" argument to the command, which allows the logic
-//    /// to branch and handle requirements of either "Part One" or "Part Two".
-//    /// The argument must be a value from this enumeration.
-//    enum Mode: String, ExpressibleByArgument, CaseIterable
-//    {
-//        case <#modeA#>
-//        case <#modeB#>
-//    }
-//    @Argument var mode: Mode
-
-//    /// Adds a flag to the command, named for the behavioral difference in
-//    /// "Part Two."  This allows the command's logic to branch and handle the
-//    /// requirements of either "Part One" or "Part Two".
-//    @Flag(help: "Search for both cardinal values ('one', 'two', ...) and integers.")
-//    var <#partTwoDifference#>: Bool = false
+    /// Adds a "sub-command" argument to the command, which allows the logic
+    /// to branch and handle requirements of either "Part One" or "Part Two".
+    /// The argument must be a value from this enumeration.
+    enum Mode: String, ExpressibleByArgument, CaseIterable
+    {
+        case distance
+        case similarity
+    }
+    @Argument var mode: Mode
 }
 
 
@@ -152,27 +165,27 @@ extension HistorianHysteria
     mutating func run() async throws
     {
         let input: AsyncLineSequence = FileHandle.standardInput.bytes.lines
-//        let input: AsyncLineSequence = URL(fileURLWithPath: #filePath)
-//            .deletingLastPathComponent()
-//            .appending(component: "Sample.txt")
-//            .lines
         let lists: (left: [Int], right: [Int]) = try await input.reduce(into: ([], []))
         {
-            currentLists, line in
-            guard case let listItems = line.split(separator: "   "),
+            guard case let listItems = $1.split(separator: "   "),
                   let      leftItem  = Int(listItems[0]),
-                  let      rightItem = Int(listItems[1]) else { throw AteShit(whilst: .parsing, line ) }
+                  let      rightItem = Int(listItems[1]) else { throw AteShit(whilst: .parsing, $1 ) }
 
-            currentLists.left .append(leftItem)
-            currentLists.right.append(rightItem)
+            $0.left .append(leftItem)
+            $0.right.append(rightItem)
         }
-        let distances: [Int] = zip(lists.left.sorted(), lists.right.sorted()).reduce(into: [])
+        
+        switch self.mode
         {
-            currentDistances, pair in
-            currentDistances.append(abs(pair.0 - pair.1))
-        }
+            case .distance:
+                print( zip(lists.left.sorted(), lists.right.sorted())
+                    .reduce(into: []) { $0.append(abs($1.0 - $1.1)) }
+                    .sum() )
 
-        print(distances.sum())
+            case .similarity:
+                print( lists.left.map { leftValue in (leftValue * lists.right.count { $0 == leftValue }) }
+                    .sum() )
+        }
     }
 }
 

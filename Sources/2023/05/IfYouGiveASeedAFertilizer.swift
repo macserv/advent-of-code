@@ -225,11 +225,11 @@ extension IfYouGiveASeedAFertilizer
             .makeAsyncIterator()
 
         // Read seeds
-        guard let seedInput: String = try? await input.next() else { fatalError("No input") }
+        guard let seedInput: String = try? await input.next() else { throw AteShit(whilst: .reading, "No input.") }
         let seedIDs: [Int] = seedInput.split(separator: ": ")[1].split(separator: " ").compactMap { Int($0) }
 
         // Read First Section Header
-        guard let firstSectionHeader: String = try? await input.next(), firstSectionHeader.hasSuffix(" map:") else { fatalError("Invalid input") }
+        guard let firstSectionHeader: String = try? await input.next(), firstSectionHeader.hasSuffix(" map:") else { throw AteShit(whilst: .parsing, "Invalid section header.") }
 
         var almanac = Almanac()
 
@@ -240,8 +240,8 @@ extension IfYouGiveASeedAFertilizer
                 print(keyPath)
                 print(mapping)
                 let values: [Int] = mapping.split(separator: " ").compactMap { Int($0) }
-                guard values.count == 3 else { fatalError("Invalid input when parsing for \(keyPath)") }
-                
+                guard values.count == 3 else { throw AteShit(whilst: .parsing, "Invalid input when parsing for \(keyPath)") }
+
                 let destinationStart = values[0]
                 let sourceStart = values[1]
                 let length = values[2]
@@ -249,11 +249,11 @@ extension IfYouGiveASeedAFertilizer
             }
         }
 
-        let soilResult: [Int:Int] = seedIDs.reduce(into: [:])
+        let soilResult: [Int:Int] = try seedIDs.reduce(into: [:])
         {
             result, seedID in
             guard let seedRange = almanac.seedToSoil.keys.filter({ $0.contains(seedID) }) .first else { result[seedID] = seedID ; return }
-            guard let soilRange = almanac.seedToSoil[seedRange] else { fatalError("Invalid seed ID: \(seedID)") }
+            guard let soilRange = almanac.seedToSoil[seedRange] else { throw AteShit(whilst: .parsing, "Invalid seed ID: \(seedID)") }
             result[seedID] = (soilRange.lowerBound + (seedID - seedRange.lowerBound))
         }
 
