@@ -20,7 +20,6 @@ import Shared
 /// "A water source? Island Island is the water source!" You point out that
 /// Snow Island isn't receiving any water.
 ///
-<<<<<<< Updated upstream
 /// "Oh, we had to stop the water because we **ran out of sand** to
 /// [filter](https://en.wikipedia.org/wiki/Sand_filter) it with! Can't make
 /// snow with dirty water.  Don't worry, I'm sure we'll get more sand soon; we
