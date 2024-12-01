@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import RegexBuilder
 
 
 extension StringProtocol
@@ -62,3 +63,10 @@ extension String
 }
 
 
+extension RegexComponent where Self == CharacterClass
+{
+    public static func anyExcept<S>(_ s: S) -> CharacterClass where S : Sequence, S.Element == Character
+    {
+        return Self.anyOf(s).inverted
+    }
+}
