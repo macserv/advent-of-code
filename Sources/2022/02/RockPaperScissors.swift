@@ -137,14 +137,14 @@ enum Hand: Int, Comparable, CaseIterable
     case paper    = 2
     case scissors = 3
 
-    init(_ identifier: String)
+    init(_ identifier: String) throws
     {
         switch identifier
         {
             case "A", "X" : self = .rock
             case "B", "Y" : self = .paper
             case "C", "Z" : self = .scissors
-            default       : fatalError()
+            default       : throw AteShit(whilst: .initializing, "Encountered an invalid identifier: '\(identifier)'.")
         }
     }
 
@@ -179,14 +179,14 @@ struct Match
         case draw = 3
         case win  = 6
 
-        init(_ identifier: String)
+        init(_ identifier: String) throws
         {
             switch identifier
             {
                 case "X" : self = .loss
                 case "Y" : self = .draw
                 case "Z" : self = .win
-                default       : fatalError()
+                default  : throw AteShit(whilst: .initializing, "Encountered an invalid identifier: '\(identifier)'.")
             }
         }
 
@@ -242,14 +242,14 @@ struct Match
     }
 
 
-    init(matchInput: String, interpretation: RockPaperScissors.MoveInterpretation)
+    init(matchInput: String, interpretation: RockPaperScissors.MoveInterpretation) throws
     {
         let identifiers = matchInput.split(separator: " ").map(String.init)
 
         switch interpretation
         {
-            case .hand    : self.init( opponentHand: Hand(identifiers[0]), playerHand: Hand(identifiers[1]) )
-            case .outcome : self.init( opponentHand: Hand(identifiers[0]), outcome:    Outcome(identifiers[1]) )
+            case .hand    : try self.init( opponentHand: Hand(identifiers[0]), playerHand: Hand(identifiers[1]) )
+            case .outcome : try self.init( opponentHand: Hand(identifiers[0]), outcome:    Outcome(identifiers[1]) )
         }
     }
 }
@@ -263,7 +263,7 @@ extension RockPaperScissors
 
         while let matchInput = readLine()
         {
-            let score: Int = Match(matchInput: matchInput, interpretation: self.moveInterpretation).score
+            let score: Int = try Match(matchInput: matchInput, interpretation: self.moveInterpretation).score
             total += score
             print("Total: \(total)")
         }

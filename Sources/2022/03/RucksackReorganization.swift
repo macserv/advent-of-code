@@ -169,9 +169,9 @@ struct Rucksack
         let identifier: Character
         let priority: Int
 
-        init(identifier: Character)
+        init(identifier: Character) throws
         {
-            guard let priority = Item.priorities[identifier] else { fatalError() }
+            guard let priority = Item.priorities[identifier] else { throw AteShit(whilst: .initializing, "Priority identifier '\(identifier)' is invalid.") }
 
             self.identifier = identifier
             self.priority = priority
@@ -182,13 +182,13 @@ struct Rucksack
     let storage: (left: [Item], right: [Item])
 
 
-    init(list: String)
+    init(list: String) throws
     {
         let half = (list.count / 2)
         let leftList = list.prefix(half)
         let rightList = list.suffix(half)
 
-        self.storage = (left: leftList.map(Item.init), right: rightList.map(Item.init) )
+        self.storage = try (left: leftList.map(Item.init), right: rightList.map(Item.init) )
     }
 
 
@@ -225,7 +225,7 @@ extension RucksackReorganization
 
         while let inputLine = readLine()
         {
-            let sack = Rucksack(list: inputLine)
+            let sack = try Rucksack(list: inputLine)
 
             let duplicates = sack.itemsPresentInBothCompartments
             let duplicatesSum = duplicates.map(\.priority).sum()
@@ -245,7 +245,7 @@ extension RucksackReorganization
 
         while let inputLine = readLine()
         {
-            teamRucksacks.append(Rucksack(list: inputLine))
+            try teamRucksacks.append(Rucksack(list: inputLine))
 
             if ( teamRucksacks.count < teamSize ) { continue }
 
@@ -255,7 +255,7 @@ extension RucksackReorganization
                 return $0.intersection($1)
             }
 
-            guard let badgeItem = commonItems.first else { fatalError() }
+            guard let badgeItem = commonItems.first else { throw AteShit(whilst: .parsing, "No common inventory items.") }
 
             sumOfBadgePriorities += badgeItem.priority
             teamRucksacks = []

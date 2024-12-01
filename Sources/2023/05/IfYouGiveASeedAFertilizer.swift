@@ -5,7 +5,7 @@
 //
 
 
-internal import ArgumentParser
+import ArgumentParser
 import Foundation
 import Shared
 

@@ -8,6 +8,25 @@
 import Foundation
 
 
+/// Utility for improved expressiveness when intentionally using an exception
+/// to break the iteration loop of a higher-order function, e.g., when
+/// implementing ``AsyncIteratorProtocol.next()``.
+public struct FunctionalBreak: LocalizedError, Sendable { public init() {} }
+
+
+/// I'm making a note here: the app ate shit.
+///
+///     throw AteShit(whilst: .initializing,
+///         "We done fucked up.")
+///
+/// - Parameters:
+///     - whilst:
+///         The general category of fuckery in which the app was engaged
+///         when it ate shit
+///     - grimDetails:
+///         A description of the specific clusterfuck that has caused the
+///         app to eat shit, or an object you want to tattle on about it.
+///
 public struct AteShit: LocalizedError, Sendable
 {
     public enum Fuckery : String, Sendable
@@ -27,19 +46,6 @@ public struct AteShit: LocalizedError, Sendable
     public let grimDetails : String?
 
 
-    /// I'm making a note here: the app ate shit.
-    ///
-    ///     throw AteShit(whilst: .initializing,
-    ///         "We done fucked up.")
-    ///
-    /// - Parameters:
-    ///     - whilst:
-    ///         The general category of fuckery in which the app was engaged
-    ///         when it ate shit
-    ///     - grimDetails:
-    ///         A description of the specific clusterfuck that has caused the
-    ///         app to eat shit, or an object you want to tattle on about it.
-    ///
     public init(whilst: Fuckery, _ grimDetails: String? = nil)
     {
         self.whilst      = whilst

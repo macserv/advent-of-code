@@ -15,7 +15,6 @@ let commonSettings: [SwiftSetting] = [
     .enableUpcomingFeature    ("ForwardTrailingClosures"),
     .enableUpcomingFeature    ("ExistentialAny"),
     .enableExperimentalFeature("StrictConcurrency"),
-    .enableExperimentalFeature("AccessLevelOnImport"),
 ]
 
 

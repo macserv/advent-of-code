@@ -125,7 +125,7 @@ extension CalorieCounting
                 continue
             }
 
-            guard let calories = Int(entry) else { fatalError("A non-integer value was encountered.") }
+            guard let calories = Int(entry) else { throw AteShit(whilst: .parsing, "A non-integer value was encountered ('\(entry)').") }
 
             inventory.append(Edible(calories: calories))
         }

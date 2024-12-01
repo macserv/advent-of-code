@@ -113,19 +113,7 @@ import Shared
 /// by adding up each number in the left list after multiplying it by the
 /// number of times that number appears in the right list.
 ///
-/// Here are the same example lists again:
-///
-///```
-/// 3   4
-/// 4   3
-/// 2   5
-/// 1   3
-/// 3   9
-/// 3   3
-///```
-///
-/// For these example lists, here is the process of finding the similarity
-/// score:
+/// For the example lists, here is the process of finding the similarity score:
 ///
 /// * The first number in the left list is `3`.  It appears in the right list
 ///     three times, so the similarity score increases by `3 * 3 = `**`9`**.
@@ -146,14 +134,14 @@ import Shared
 @main
 struct HistorianHysteria: AsyncParsableCommand
 {
-    /// Adds a "sub-command" argument to the command, which allows the logic
-    /// to branch and handle requirements of either "Part One" or "Part Two".
-    /// The argument must be a value from this enumeration.
+    /// Determines whether the command will generate "distance" output, or
+    /// "similarity" output.
     enum Mode: String, ExpressibleByArgument, CaseIterable
     {
         case distance
         case similarity
     }
+
     @Argument var mode: Mode
 }
 
