@@ -24,7 +24,7 @@ let package: Package = Package(
     name: "AdventOfCode",
 
     platforms: [
-        .macOS(.v14)
+        .macOS(.v13)
     ],
 
     dependencies: [
@@ -52,5 +52,6 @@ let package: Package = Package(
         .executableTarget(name: "if-you-give-a-seed-a-fertilizer", dependencies: commonDependencies, path: "Sources/2023/05", swiftSettings: commonSettings),
 
         // 2024
+        .executableTarget(name: "historian-hysteria", dependencies: commonDependencies, path: "Sources/2024/01", swiftSettings: commonSettings),
     ]
 )

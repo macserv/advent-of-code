@@ -217,7 +217,12 @@ extension IfYouGiveASeedAFertilizer
     mutating func run() async throws
     {
         // let input = FileHandle.standardInput.bytes.lines.makeAsyncIterator()
-        var input = URL.homeDirectory.appending(path: "Desktop/sample.txt").lines.makeAsyncIterator()
+
+        var input: AsyncLineSequence.AsyncIterator = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .appending(component: "Sample.txt")
+            .lines
+            .makeAsyncIterator()
 
         // Read seeds
         guard let seedInput: String = try? await input.next() else { fatalError("No input") }
@@ -244,7 +249,6 @@ extension IfYouGiveASeedAFertilizer
             }
         }
 
-
         let soilResult: [Int:Int] = seedIDs.reduce(into: [:])
         {
             result, seedID in
@@ -253,7 +257,7 @@ extension IfYouGiveASeedAFertilizer
             result[seedID] = (soilRange.lowerBound + (seedID - seedRange.lowerBound))
         }
 
-        seedIDs.forEach { print("Seed number \($0) corresponds to soil number \(soilResult[$0]!).") }
+        seedIDs.forEach { print("/// - Seed number `\($0)` corresponds to soil number `\(soilResult[$0]!)`.") }
     }
 }
 

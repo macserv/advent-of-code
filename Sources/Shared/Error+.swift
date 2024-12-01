@@ -8,7 +8,7 @@
 import Foundation
 
 
-public struct AteShit<DetailType: Sendable>: LocalizedError
+public struct AteShit: LocalizedError, Sendable
 {
     public enum Fuckery : String, Sendable
     {
@@ -24,7 +24,7 @@ public struct AteShit<DetailType: Sendable>: LocalizedError
     }
 
     public let whilst      : Fuckery
-    public let grimDetails : DetailType?
+    public let grimDetails : String?
 
 
     /// I'm making a note here: the app ate shit.
@@ -40,7 +40,7 @@ public struct AteShit<DetailType: Sendable>: LocalizedError
     ///         A description of the specific clusterfuck that has caused the
     ///         app to eat shit, or an object you want to tattle on about it.
     ///
-    public init(whilst: Fuckery, _ grimDetails: DetailType? = nil)
+    public init(whilst: Fuckery, _ grimDetails: String? = nil)
     {
         self.whilst      = whilst
         self.grimDetails = grimDetails
