@@ -8,7 +8,7 @@
 import ArgumentParser
 import Foundation
 import RegexBuilder
-import Shared
+import AdventKit
 
 
 /// Day 4 : Scratchcards

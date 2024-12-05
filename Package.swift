@@ -5,9 +5,18 @@
 import PackageDescription
 
 
+extension Package.Dependency
+{
+    public static func github(_ repo: String, by user: String, _ versionRange: Range<Version>) -> PackageDescription.Package.Dependency
+    {
+        return Self.package(url: "https://github.com/\(user)/\(repo).git", versionRange)
+    }
+}
+
+
 let commonDependencies: [Target.Dependency] = [
     .product(name: "ArgumentParser", package: "swift-argument-parser"),
-    .target(name: "Shared")
+    .target(name: "AdventKit")
 ]
 
 let commonSettings: [SwiftSetting] = [
@@ -26,12 +35,18 @@ let package: Package = Package(
         .macOS(.v13)
     ],
 
+    products: [
+        // 2024
+        .executable(name: "historian-hysteria", targets: ["HistorianHysteria"]),
+        .executable(name: "december-second",    targets: ["DecemberSecond"]),
+    ],
+
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.5.0"))
+        .github("swift-argument-parser", by: "apple", .upToNextMajor(from: "1.5.0")),
     ],
 
     targets: [
-        .target(name: "Shared"),
+        .target(name: "AdventKit"),
 
         // 2022
         .executableTarget(name: "calorie-counting",        dependencies: commonDependencies, path: "Sources/2022/01", swiftSettings: commonSettings),
@@ -51,6 +66,7 @@ let package: Package = Package(
         .executableTarget(name: "if-you-give-a-seed-a-fertilizer", dependencies: commonDependencies, path: "Sources/2023/05", swiftSettings: commonSettings),
 
         // 2024
-        .executableTarget(name: "historian-hysteria", dependencies: commonDependencies, path: "Sources/2024/01", swiftSettings: commonSettings),
+        .executableTarget(name: "HistorianHysteria", dependencies: commonDependencies, path: "Sources/2024/01", swiftSettings: commonSettings),
+        .executableTarget(name: "DecemberSecond",    dependencies: commonDependencies, path: "Sources/2024/02", swiftSettings: commonSettings),
     ]
 )

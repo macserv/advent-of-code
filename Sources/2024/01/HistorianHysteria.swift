@@ -7,7 +7,7 @@
 
 import ArgumentParser
 import Foundation
-import Shared
+import AdventKit
 
 
 /// Day 1 : Historian Hysteria
