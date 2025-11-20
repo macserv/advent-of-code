@@ -1,10 +1,24 @@
-.DS_Store
+### Advent of Code ###
+Input.txt
+Sample-*.txt
+
+### Swift (`swift package init`) ###
 /.build
 /Packages
-/*.xcodeproj
 xcuserdata/
 DerivedData/
 .swiftpm/config/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
-Input.txt
+
+### VSCode (Swift LSP) ###
+/.index-build
+
+### macOS (Icon must end with two \r) ###
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Icon
+
+
