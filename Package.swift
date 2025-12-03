@@ -23,10 +23,11 @@ private let commonDependencies: [Target.Dependency] = [
 ]
 
 private let commonSettings: [SwiftSetting] = [
-    .enableUpcomingFeature    ("BareSlashRegexLiterals"),
-    .enableUpcomingFeature    ("ForwardTrailingClosures"),
-    .enableUpcomingFeature    ("ExistentialAny"),
-    .enableExperimentalFeature("StrictConcurrency"),
+    .enableUpcomingFeature("ExistentialAny"),                  // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0335-existential-any.md
+    .enableUpcomingFeature("InternalImportsByDefault"),        // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0409-access-level-on-imports.md
+    .enableUpcomingFeature("MemberImportVisibility"),          // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0444-member-import-visibility.md
+    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),  // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0461-async-function-isolation.md
+    .enableUpcomingFeature("InferIsolatedConformances"),       // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0470-isolated-conformances.md
 ]
 
 private let targets: [Target] = [
@@ -52,7 +53,7 @@ private let targets: [Target] = [
 
     // 2024
     .executableTarget(name: "historian-hysteria", dependencies: commonDependencies, path: "Sources/2024/01", swiftSettings: commonSettings),
-    .executableTarget(name: "DecemberSecond",    dependencies: commonDependencies, path: "Sources/2024/02", swiftSettings: commonSettings),
+    .executableTarget(name: "red-nosed-reports",  dependencies: commonDependencies, path: "Sources/2024/02", swiftSettings: commonSettings),
 ]
 
 

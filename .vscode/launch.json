@@ -225,26 +225,6 @@
             "request": "launch",
             "args": [],
             "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug december-second",
-            "target": "december-second",
-            "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug december-second"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release december-second",
-            "target": "december-second",
-            "configuration": "release",
-            "preLaunchTask": "swift: Build Release december-second"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
             "name": "Debug cube-conundrum",
             "target": "cube-conundrum",
             "configuration": "debug",
@@ -299,6 +279,26 @@
             "target": "calorie-counting",
             "configuration": "release",
             "preLaunchTask": "swift: Build Release calorie-counting"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:advent-of-code}",
+            "name": "Debug red-nosed-reports",
+            "target": "red-nosed-reports",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug red-nosed-reports"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:advent-of-code}",
+            "name": "Release red-nosed-reports",
+            "target": "red-nosed-reports",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release red-nosed-reports"
         }
     ]
 }

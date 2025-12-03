@@ -1,5 +1,5 @@
 //
-//  DecemberSecond.swift
+//  RedNosedReports.swift
 //
 //  Created by Matthew Judy on 2024-12-02.
 //
@@ -16,7 +16,7 @@ import AdventKit
 ///
 /// <#Challenge Documentation#>
 @main
-struct DecemberSecond: AsyncParsableCommand
+struct RedNosedReports: AsyncParsableCommand
 {
 //    /// Adds a "sub-command" argument to the command, which allows the logic
 //    /// to branch and handle requirements of either "Part One" or "Part Two".
@@ -38,7 +38,7 @@ struct DecemberSecond: AsyncParsableCommand
 
 // MARK: - Command Execution
 
-extension DecemberSecond
+extension RedNosedReports
 {
     mutating func run() async throws
     {
