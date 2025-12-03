@@ -171,7 +171,7 @@ extension HistorianHysteria
                     .sum() )
 
             case .similarity:
-                print( lists.left.map { leftValue in (leftValue * lists.right.count { $0 == leftValue }) }
+                print( lists.left.map { leftValue in (leftValue * lists.right.filter({ $0 == leftValue }).count) }
                     .sum() )
         }
     }

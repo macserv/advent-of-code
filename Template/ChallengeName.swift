@@ -5,9 +5,9 @@
 //
 
 
-import ArgumentParser
 import Foundation
-import Shared
+import ArgumentParser
+import AdventKit
 
 
 /// Day <#Day Number#> : <#Challenge Name#>
@@ -42,7 +42,7 @@ extension <#ChallengeName#>
 {
     mutating func run() async throws
     {
-        let input: AsyncLineSequence = FileHandle.standardInput.bytes.lines // URL.homeDirectory.appending(path: "Desktop/input.txt").lines
+        let input: AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines  // FileHandle.standardInput.bytes.lines
         try await input.reduce(into: []) { $0.append($1) }.forEach { print($0) }
     }
 }

@@ -10,7 +10,7 @@ import RegexBuilder
 
 extension StringProtocol
 {
-    public func ranges<T: StringProtocol>(of string: T, options: String.CompareOptions = [], range searchRange: Range<Self.Index>? = nil, locale: Locale? = nil) -> [Range<Self.Index>]
+    public func ranges(of string: some StringProtocol, options: String.CompareOptions = [], range searchRange: Range<Self.Index>? = nil, locale: Locale? = nil) -> [Range<Self.Index>]
     {
         var ranges     = Array<Range<Index>>()
         var startIndex = searchRange?.lowerBound ?? self.startIndex
@@ -28,19 +28,19 @@ extension StringProtocol
     }
 
 
-    public func indices<T: StringProtocol>(of string: T, options: String.CompareOptions = [], range searchRange: Range<Self.Index>? = nil, locale: Locale? = nil) -> [Self.Index]
+    public func indices(of string: some StringProtocol, options: String.CompareOptions = [], range searchRange: Range<Self.Index>? = nil, locale: Locale? = nil) -> [Self.Index]
     {
         self.ranges(of: string, options: options, range: searchRange, locale: locale).map(\.lowerBound)
     }
 
 
-    public func index<T: StringProtocol>(of string: T, options: String.CompareOptions = [], range searchRange: Range<Self.Index>? = nil, locale: Locale? = nil) -> Index?
+    public func index(of string: some StringProtocol, options: String.CompareOptions = [], range searchRange: Range<Self.Index>? = nil, locale: Locale? = nil) -> Index?
     {
         self.range(of: string, options: options, range: searchRange, locale: locale)?.lowerBound
     }
 
 
-    public func endIndex<T: StringProtocol>(of string: T, options: String.CompareOptions = [], range searchRange: Range<Self.Index>? = nil, locale: Locale? = nil) -> Index?
+    public func endIndex(of string: some StringProtocol, options: String.CompareOptions = [], range searchRange: Range<Self.Index>? = nil, locale: Locale? = nil) -> Index?
     {
         self.range(of: string, options: options, range: searchRange, locale: locale)?.upperBound
     }
@@ -65,7 +65,7 @@ extension String
 
 extension RegexComponent where Self == CharacterClass
 {
-    public static func anyExcept<S>(_ s: S) -> CharacterClass where S : Sequence, S.Element == Character
+    public static func anyExcept(_ s: some Sequence<Character>) -> CharacterClass
     {
         return Self.anyOf(s).inverted
     }

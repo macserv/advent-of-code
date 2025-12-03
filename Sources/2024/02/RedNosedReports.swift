@@ -1,5 +1,5 @@
 //
-//  DecemberSecond.swift
+//  RedNosedReports.swift
 //
 //  Created by Matthew Judy on 2024-12-02.
 //
@@ -16,7 +16,7 @@ import AdventKit
 ///
 /// <#Challenge Documentation#>
 @main
-struct DecemberSecond: AsyncParsableCommand
+struct RedNosedReports: AsyncParsableCommand
 {
 //    /// Adds a "sub-command" argument to the command, which allows the logic
 //    /// to branch and handle requirements of either "Part One" or "Part Two".
@@ -38,13 +38,13 @@ struct DecemberSecond: AsyncParsableCommand
 
 // MARK: - Command Execution
 
-extension DecemberSecond
+extension RedNosedReports
 {
     mutating func run() async throws
     {
         let maxDelta: Int = 3
         let tolerant: Bool = true
-        let input: AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Input.txt").lines  // FileHandle.standardInput.bytes.lines
+        let input: AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines  // FileHandle.standardInput.bytes.lines
         let safeReportCount: Int = try await input.reduce(into: 0)
         {
             currentCount, line in
@@ -54,7 +54,7 @@ extension DecemberSecond
                 return level
             }
 
-            if ( try false == levels.isSafe(maxDelta: maxDelta, singleFaultTolerant: tolerant) ) { print("REJECTED!") ; return }
+            if ( false == levels.isAlmostSorted() ) { print("REJECTED!") ; return }
             currentCount += 1
         }
 
@@ -101,7 +101,45 @@ extension Array where Element: SignedInteger
         }
     }
 
-    func isSafe(maxDelta: Element, singleFaultTolerant: Bool = false) throws -> Bool
+
+    func isAlmostSorted() -> Bool {
+        // Helper function to check if an array is sorted in ascending order
+        func isAscending() -> Bool {
+            var outOfOrderCount = 0
+            for i in 1..<self.count {
+                if self[i] < self[i - 1] {
+                    outOfOrderCount += 1
+                    if outOfOrderCount > 1 {
+                        return false
+                    }
+                }
+            }
+            return true
+        }
+
+        // Helper function to check if an array is sorted in descending order
+        func isDescending() -> Bool {
+            var outOfOrderCount = 0
+            for i in 1..<self.count {
+                if self[i] > self[i - 1] {
+                    outOfOrderCount += 1
+                    if outOfOrderCount > 1 {
+                        return false
+                    }
+                }
+            }
+            return true
+        }
+
+        // Check if the array is almost sorted in either ascending or descending order
+        return isAscending() || isDescending()
+    }
+
+
+    /// It's safe if:
+    ///     The array is sorted
+    ///     The distance between any two adjacent elements is at least 1 and no more than 3.
+    mutating func isSafe(maxDelta: Element, singleFaultTolerant: Bool = false) throws -> Bool
     {
         print()
         print(self)
@@ -127,21 +165,21 @@ extension Array where Element: SignedInteger
         }
         catch ReportError.unsafeChange(let index)
         {
-
             if ( false == singleFaultTolerant ) { print("Unsafe change at \(index)... REJECTED! 😤😤😤") ; return false }
 
             print("Unsafe change at \(index)!")
-            var currentRemoved = self ; self.remove(at: (index))
+            self.remove(at: (index))
             return try self.isSafe(maxDelta: maxDelta, singleFaultTolerant: false)
         }
         catch ReportError.invalidDirection
         {
             if ( false == singleFaultTolerant ) { return false }
 
-            self.remove(at: 0)
+//            self.remove(at: 0)
             return try self.isSafe(maxDelta: maxDelta, singleFaultTolerant: false)
         }
         print("Safe!")
         return true
     }
 }
+

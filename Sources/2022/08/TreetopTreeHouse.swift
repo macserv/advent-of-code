@@ -159,7 +159,7 @@ extension TreetopTreeHouse
         {
             (rowIndex, row) in
 
-            if ( (rowIndex == 0) || (rowIndex == rows.lastIndex) )
+            if ( (rowIndex == rows.startIndex) || (rowIndex == rows.index(before: rows.endIndex)) )
             {
                 return Array(repeating: edgeValue, count: columns.count)
             }
@@ -168,7 +168,7 @@ extension TreetopTreeHouse
             {
                 (columnIndex, height) in
 
-                if ( (columnIndex == 0) || (columnIndex == columns.lastIndex) )
+                if ( (columnIndex == columns.startIndex) || (columnIndex == columns.index(before: columns.endIndex)) )
                 {
                     return edgeValue
                 }
@@ -201,7 +201,7 @@ extension TreetopTreeHouse
                     result, info in
                     return ( result || (info.directionalTrees.firstIndex { $0 >= info.height } == nil) )
                 }
-                print(visibilityGrid.reduce(0) { ($0 + $1.count { $0 }) })
+                print(visibilityGrid.reduce(0) { ($0 + $1.filter({ $0 }).count) })
 
             case .bestScenicScore:
                 let scoreGrid = self.evaluateHeights(rows: rows, columns: columns, edgeValue: 0, reduceInto: 1)

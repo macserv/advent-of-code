@@ -8,6 +8,7 @@
 import Foundation
 import ArgumentParser
 import AdventKit
+import Algorithms
 
 
 /**
@@ -184,7 +185,8 @@ extension SupplyStacks
         {
             if let _ = inputLine.wholeMatch(of: crateLinePattern)
             {
-                inputLine.every(from: inputLine.index(inputLine.startIndex, offsetBy: 1), nth: 4).map
+                let secondCharacterIndex = inputLine.index(inputLine.startIndex, offsetBy: 1)
+                inputLine[secondCharacterIndex...].striding(by: 4).map
                 {
                     ($0 == " ") ? nil : $0
                 }

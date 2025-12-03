@@ -4,54 +4,61 @@
 
 import PackageDescription
 
-let packageName: String = "AdventOfCode"
 
-let supportedPlatforms: [SupportedPlatform] = [
+private let packageName = "AdventOfCode"
+
+private let supportedPlatforms: [SupportedPlatform] = [
     .macOS(.v26)
 ]
 
-let packageDependencies: [Package.Dependency] = [
-    .github("swift-argument-parser", by: "apple", .upToNextMajor(from: "1.6.2")),
+private let packageDependencies: [Package.Dependency] = [
+    .github("swift-argument-parser", by: "apple", .upToNextMajor(from: "1.6.1")),
+    .github("swift-algorithms",      by: "apple", .upToNextMajor(from: "1.2.1")),
 ]
 
-let commonTargetDeps: [Target.Dependency] = [
+private let commonDependencies: [Target.Dependency] = [
     .product(name: "ArgumentParser", package: "swift-argument-parser"),
+    .product(name: "Algorithms",     package: "swift-algorithms"),
     .target(name: "AdventKit")
 ]
 
-let commonSettings: [SwiftSetting] = [
-    .enableUpcomingFeature     ("ExistentialAny"),
-    .enableExperimentalFeature ("StrictConcurrency"),
+private let commonSettings: [SwiftSetting] = [
+    .enableUpcomingFeature("ExistentialAny"),                  // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0335-existential-any.md
+    .enableUpcomingFeature("InternalImportsByDefault"),        // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0409-access-level-on-imports.md
+    .enableUpcomingFeature("MemberImportVisibility"),          // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0444-member-import-visibility.md
+    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),  // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0461-async-function-isolation.md
+    .enableUpcomingFeature("InferIsolatedConformances"),       // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0470-isolated-conformances.md
 ]
 
-let targets: [Target] = [
-        // Support Library
-        .target(name: "AdventKit"),
+private let targets: [Target] = [
+    // Shared Framework
+    .target(name: "AdventKit"),
 
-        .executableTarget(name: "calorie-counting",                dependencies: commonTargetDeps, path: "Sources/2022/01", swiftSettings: commonSettings),
-        .executableTarget(name: "rock-paper-scissors",             dependencies: commonTargetDeps, path: "Sources/2022/02", swiftSettings: commonSettings),
-        .executableTarget(name: "rucksack-reorganization",         dependencies: commonTargetDeps, path: "Sources/2022/03", swiftSettings: commonSettings),
-        .executableTarget(name: "camp-cleanup",                    dependencies: commonTargetDeps, path: "Sources/2022/04", swiftSettings: commonSettings),
-        .executableTarget(name: "supply-stacks",                   dependencies: commonTargetDeps, path: "Sources/2022/05", swiftSettings: commonSettings),
-        .executableTarget(name: "tuning-trouble",                  dependencies: commonTargetDeps, path: "Sources/2022/06", swiftSettings: commonSettings),
-        .executableTarget(name: "no-space-left-on-device",         dependencies: commonTargetDeps, path: "Sources/2022/07", swiftSettings: commonSettings),
-        .executableTarget(name: "treetop-tree-house",              dependencies: commonTargetDeps, path: "Sources/2022/08", swiftSettings: commonSettings),
-        .executableTarget(name: "trebuchet",                       dependencies: commonTargetDeps, path: "Sources/2023/01", swiftSettings: commonSettings),
-        .executableTarget(name: "cube-conundrum",                  dependencies: commonTargetDeps, path: "Sources/2023/02", swiftSettings: commonSettings),
-        .executableTarget(name: "gear-ratios",                     dependencies: commonTargetDeps, path: "Sources/2023/03", swiftSettings: commonSettings),
-        .executableTarget(name: "scratchcards",                    dependencies: commonTargetDeps, path: "Sources/2023/04", swiftSettings: commonSettings),
-        .executableTarget(name: "if-you-give-a-seed-a-fertilizer", dependencies: commonTargetDeps, path: "Sources/2023/05", swiftSettings: commonSettings),
-        .executableTarget(name: "historian-hysteria",              dependencies: commonTargetDeps, path: "Sources/2024/01", swiftSettings: commonSettings),
-        .executableTarget(name: "december-second",                 dependencies: commonTargetDeps, path: "Sources/2024/02", swiftSettings: commonSettings),
-    ]
+    // 2022
+    .executableTarget(name: "calorie-counting",        dependencies: commonDependencies, path: "Sources/2022/01", swiftSettings: commonSettings),
+    .executableTarget(name: "rock-paper-scissors",     dependencies: commonDependencies, path: "Sources/2022/02", swiftSettings: commonSettings),
+    .executableTarget(name: "rucksack-reorganization", dependencies: commonDependencies, path: "Sources/2022/03", swiftSettings: commonSettings),
+    .executableTarget(name: "camp-cleanup",            dependencies: commonDependencies, path: "Sources/2022/04", swiftSettings: commonSettings),
+    .executableTarget(name: "supply-stacks",           dependencies: commonDependencies, path: "Sources/2022/05", swiftSettings: commonSettings),
+    .executableTarget(name: "tuning-trouble",          dependencies: commonDependencies, path: "Sources/2022/06", swiftSettings: commonSettings),
+    .executableTarget(name: "no-space-left-on-device", dependencies: commonDependencies, path: "Sources/2022/07", swiftSettings: commonSettings),
+    .executableTarget(name: "treetop-tree-house",      dependencies: commonDependencies, path: "Sources/2022/08", swiftSettings: commonSettings),
+
+    // 2023
+    .executableTarget(name: "trebuchet",                       dependencies: commonDependencies, path: "Sources/2023/01", swiftSettings: commonSettings),
+    .executableTarget(name: "cube-conundrum",                  dependencies: commonDependencies, path: "Sources/2023/02", swiftSettings: commonSettings),
+    .executableTarget(name: "gear-ratios",                     dependencies: commonDependencies, path: "Sources/2023/03", swiftSettings: commonSettings),
+    .executableTarget(name: "scratchcards",                    dependencies: commonDependencies, path: "Sources/2023/04", swiftSettings: commonSettings),
+    .executableTarget(name: "if-you-give-a-seed-a-fertilizer", dependencies: commonDependencies, path: "Sources/2023/05", swiftSettings: commonSettings),
+
+    // 2024
+    .executableTarget(name: "historian-hysteria", dependencies: commonDependencies, path: "Sources/2024/01", swiftSettings: commonSettings),
+    .executableTarget(name: "red-nosed-reports",  dependencies: commonDependencies, path: "Sources/2024/02", swiftSettings: commonSettings),
+]
 
 
-let package: Package = Package(
-    name         : packageName,
-    platforms    : supportedPlatforms,
-    dependencies : packageDependencies,
-    targets      : targets
-)
+
+let package: Package = Package(name: packageName, platforms: supportedPlatforms, dependencies: packageDependencies, targets: targets)
 
 
 

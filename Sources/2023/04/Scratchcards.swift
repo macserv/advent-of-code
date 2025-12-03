@@ -199,9 +199,10 @@ extension Scratchcards
                     let       winningNumbers : Set<Int>    = match[winning]
                     let       yourNumbers    : Set<Int>    = match[yours]
                     let       scoringNumbers : Set<Int>    = yourNumbers.intersection(winningNumbers)
-                    guard let lastIndex      : Int         = scoringNumbers.lastIndex else { return $0 }
 
-                    return ( $0 + Int(pow(Double(2), Double(lastIndex))) )
+                    guard (!scoringNumbers.isEmpty) else { return $0 }
+
+                    return ( $0 + Int(pow(Double(2), Double(scoringNumbers.count - 1))) )
                 }
 
                 print(score)
@@ -212,8 +213,9 @@ extension Scratchcards
                 var copyCounts : [Int] = []
                 let count      : Int = try await input.enumerated().reduce(0)
                 {
-                    count, lineIndexAndLine in let (lineIndex, line) = lineIndexAndLine
+                    count, lineIndexAndLine in
 
+                    let       (lineIndex, line)            = lineIndexAndLine
                     guard let match          : Regex.Match = line.wholeMatch(of: scratchPattern) else { throw AteShit(whilst: .parsing, line) }
                     let       winningNumbers : Set<Int>    = match[winning]
                     let       yourNumbers    : Set<Int>    = match[yours]
@@ -229,7 +231,7 @@ extension Scratchcards
                         let linesForward = (forwardIndex + 1)
                         let targetIndex  = (lineIndex + linesForward)
                         
-                        switch copyCounts.lastIndex!
+                        switch copyCounts.index(before: copyCounts.endIndex)
                         {
                             case (targetIndex - 1):
                                 copyCounts.append(increment)
