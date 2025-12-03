@@ -184,7 +184,7 @@ struct IfYouGiveASeedAFertilizer: AsyncParsableCommand
 //    /// "Part Two."  This allows the command's logic to branch and handle the
 //    /// requirements of either "Part One" or "Part Two".
 //    @Flag(help: "Search for both cardinal values ('one', 'two', ...) and integers.")
-//    var <#partTwoDifference#>: Bool = false
+//    var partTwoDifference: Bool = false
 }
 
 
@@ -200,7 +200,7 @@ struct Almanac
     var temperatureToHumidity : [ClosedRange<Int> : ClosedRange<Int>] = [:]
     var humidityToLocation    : [ClosedRange<Int> : ClosedRange<Int>] = [:]
 
-    static let allKeyPaths = [
+    static let allKeyPaths: [any WritableKeyPath <Self, [ClosedRange<Int> : ClosedRange<Int>]> & Sendable] = [
         \Self.seedToSoil,
         \Self.soilToFertilizer,
         \Self.fertilizerToWater,
@@ -260,4 +260,6 @@ extension IfYouGiveASeedAFertilizer
         seedIDs.forEach { print("/// - Seed number `\($0)` corresponds to soil number `\(soilResult[$0]!)`.") }
     }
 }
+
+
 
