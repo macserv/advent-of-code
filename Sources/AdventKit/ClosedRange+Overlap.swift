@@ -9,15 +9,7 @@ import Foundation
 
 extension ClosedRange where Bound : Comparable
 {
-    public func covers(_ other: Self) -> Bool
-    {
-        return (other.clamped(to: self) == other)
-    }
-
-
-    public func isCoveredBy(_ other: Self) -> Bool
-    {
-        return (self.clamped(to: other) == self)
-    }
+    public func covers(_ other: Self)      -> Bool { other.clamped(to: self) == other }
+    public func isCoveredBy(_ other: Self) -> Bool { self.clamped(to: other) == self }
 }
 

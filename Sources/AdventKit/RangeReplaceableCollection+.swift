@@ -9,12 +9,6 @@ import Foundation
 
 extension RangeReplaceableCollection
 {
-    public func every(from: Index? = nil, through: Index? = nil, nth: Int) -> Self
-    {
-        return Self(stride(from: from, through: through, by: nth))
-    }
-
-
     public func rotatedLeft(by distance: Int) -> SubSequence
     {
         // Handle subarrays, which don't necessarily start at 0.

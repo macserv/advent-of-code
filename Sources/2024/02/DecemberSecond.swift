@@ -175,7 +175,7 @@ extension Array where Element: SignedInteger
         {
             if ( false == singleFaultTolerant ) { return false }
 
-            self.remove(at: 0)
+//            self.remove(at: 0)
             return try self.isSafe(maxDelta: maxDelta, singleFaultTolerant: false)
         }
         print("Safe!")
