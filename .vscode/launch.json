@@ -299,6 +299,26 @@
             "target": "red-nosed-reports",
             "configuration": "release",
             "preLaunchTask": "swift: Build Release red-nosed-reports"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:advent-of-code}",
+            "name": "Debug secret-entrance",
+            "target": "secret-entrance",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug secret-entrance"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:advent-of-code}",
+            "name": "Release secret-entrance",
+            "target": "secret-entrance",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release secret-entrance"
         }
     ]
 }

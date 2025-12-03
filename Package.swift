@@ -1,4 +1,4 @@
-// swift-tools-version: 6.2.1
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 
@@ -54,6 +54,9 @@ private let targets: [Target] = [
     // 2024
     .executableTarget(name: "historian-hysteria", dependencies: commonDependencies, path: "Sources/2024/01", swiftSettings: commonSettings),
     .executableTarget(name: "red-nosed-reports",  dependencies: commonDependencies, path: "Sources/2024/02", swiftSettings: commonSettings),
+
+    // 2025
+    .executableTarget(name: "secret-entrance", dependencies: commonDependencies, path: "Sources/2025/01", swiftSettings: commonSettings),
 ]
 
 
