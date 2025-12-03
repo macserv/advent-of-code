@@ -11,13 +11,11 @@ import Foundation
 /// Utility for improved expressiveness when intentionally using an exception
 /// to break the iteration loop of a higher-order function, e.g., when
 /// implementing ``AsyncIteratorProtocol.next()``.
-public struct FunctionalBreak: LocalizedError, Sendable { public init() {} }
+public struct FunctionalBreak: Error, Sendable { public init() {} }
 
 
-/// I'm making a note here: the app ate shit.
-///
-///     throw AteShit(whilst: .initializing,
-///         "We done fucked up.")
+/// A highly-expressive, general purpose error type that can be used to
+/// represent most things that go wrong in a data-driven application
 ///
 /// - Parameters:
 ///     - whilst:
@@ -26,6 +24,17 @@ public struct FunctionalBreak: LocalizedError, Sendable { public init() {} }
 ///     - grimDetails:
 ///         A description of the specific clusterfuck that has caused the
 ///         app to eat shit, or an object you want to tattle on about it.
+///
+/// - Example:
+///     ```
+///     throw AteShit(
+///         whilst: .initializing,
+///         "We done f-ed up."
+///     )
+///     ```
+///
+/// - Remark:
+///     I'm making a note here: the app ate shit.
 ///
 public struct AteShit: LocalizedError, Sendable
 {

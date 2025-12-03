@@ -131,14 +131,14 @@ extension Array where Element: SignedInteger
             if ( false == singleFaultTolerant ) { print("Unsafe change at \(index)... REJECTED! 😤😤😤") ; return false }
 
             print("Unsafe change at \(index)!")
-            var currentRemoved = self ; self.remove(at: (index))
+//            var currentRemoved = self ; self.remove(at: (index))
             return try self.isSafe(maxDelta: maxDelta, singleFaultTolerant: false)
         }
         catch ReportError.invalidDirection
         {
             if ( false == singleFaultTolerant ) { return false }
 
-            self.remove(at: 0)
+//            self.remove(at: 0)
             return try self.isSafe(maxDelta: maxDelta, singleFaultTolerant: false)
         }
         print("Safe!")
