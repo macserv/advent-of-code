@@ -10,7 +10,7 @@ import ArgumentParser
 import AdventKit
 
 
-/// Day <#Day Number#> : <#Challenge Name#>
+/// Day ${1:day_number} : <#Challenge Name#>
 ///
 /// # Part One
 ///
