@@ -35,28 +35,28 @@ private let targets: [Target] = [
     .target(name: "AdventKit"),
 
     // 2022
-    .executableTarget(name: "calorie-counting",        dependencies: commonDependencies, path: "Sources/2022/01", swiftSettings: commonSettings),
-    .executableTarget(name: "rock-paper-scissors",     dependencies: commonDependencies, path: "Sources/2022/02", swiftSettings: commonSettings),
-    .executableTarget(name: "rucksack-reorganization", dependencies: commonDependencies, path: "Sources/2022/03", swiftSettings: commonSettings),
-    .executableTarget(name: "camp-cleanup",            dependencies: commonDependencies, path: "Sources/2022/04", swiftSettings: commonSettings),
-    .executableTarget(name: "supply-stacks",           dependencies: commonDependencies, path: "Sources/2022/05", swiftSettings: commonSettings),
-    .executableTarget(name: "tuning-trouble",          dependencies: commonDependencies, path: "Sources/2022/06", swiftSettings: commonSettings),
-    .executableTarget(name: "no-space-left-on-device", dependencies: commonDependencies, path: "Sources/2022/07", swiftSettings: commonSettings),
-    .executableTarget(name: "treetop-tree-house",      dependencies: commonDependencies, path: "Sources/2022/08", swiftSettings: commonSettings),
+    .executableTarget(name: "calorie-counting",        dependencies: commonDependencies, path: "Sources/AdventOfCode/2022/01", swiftSettings: commonSettings),
+    .executableTarget(name: "rock-paper-scissors",     dependencies: commonDependencies, path: "Sources/AdventOfCode/2022/02", swiftSettings: commonSettings),
+    .executableTarget(name: "rucksack-reorganization", dependencies: commonDependencies, path: "Sources/AdventOfCode/2022/03", swiftSettings: commonSettings),
+    .executableTarget(name: "camp-cleanup",            dependencies: commonDependencies, path: "Sources/AdventOfCode/2022/04", swiftSettings: commonSettings),
+    .executableTarget(name: "supply-stacks",           dependencies: commonDependencies, path: "Sources/AdventOfCode/2022/05", swiftSettings: commonSettings),
+    .executableTarget(name: "tuning-trouble",          dependencies: commonDependencies, path: "Sources/AdventOfCode/2022/06", swiftSettings: commonSettings),
+    .executableTarget(name: "no-space-left-on-device", dependencies: commonDependencies, path: "Sources/AdventOfCode/2022/07", swiftSettings: commonSettings),
+    .executableTarget(name: "treetop-tree-house",      dependencies: commonDependencies, path: "Sources/AdventOfCode/2022/08", swiftSettings: commonSettings),
 
     // 2023
-    .executableTarget(name: "trebuchet",                       dependencies: commonDependencies, path: "Sources/2023/01", swiftSettings: commonSettings),
-    .executableTarget(name: "cube-conundrum",                  dependencies: commonDependencies, path: "Sources/2023/02", swiftSettings: commonSettings),
-    .executableTarget(name: "gear-ratios",                     dependencies: commonDependencies, path: "Sources/2023/03", swiftSettings: commonSettings),
-    .executableTarget(name: "scratchcards",                    dependencies: commonDependencies, path: "Sources/2023/04", swiftSettings: commonSettings),
-    .executableTarget(name: "if-you-give-a-seed-a-fertilizer", dependencies: commonDependencies, path: "Sources/2023/05", swiftSettings: commonSettings),
+    .executableTarget(name: "trebuchet",                       dependencies: commonDependencies, path: "Sources/AdventOfCode/2023/01", swiftSettings: commonSettings),
+    .executableTarget(name: "cube-conundrum",                  dependencies: commonDependencies, path: "Sources/AdventOfCode/2023/02", swiftSettings: commonSettings),
+    .executableTarget(name: "gear-ratios",                     dependencies: commonDependencies, path: "Sources/AdventOfCode/2023/03", swiftSettings: commonSettings),
+    .executableTarget(name: "scratchcards",                    dependencies: commonDependencies, path: "Sources/AdventOfCode/2023/04", swiftSettings: commonSettings),
+    .executableTarget(name: "if-you-give-a-seed-a-fertilizer", dependencies: commonDependencies, path: "Sources/AdventOfCode/2023/05", swiftSettings: commonSettings),
 
     // 2024
-    .executableTarget(name: "historian-hysteria", dependencies: commonDependencies, path: "Sources/2024/01", swiftSettings: commonSettings),
-    .executableTarget(name: "red-nosed-reports",  dependencies: commonDependencies, path: "Sources/2024/02", swiftSettings: commonSettings),
+    .executableTarget(name: "historian-hysteria", dependencies: commonDependencies, path: "Sources/AdventOfCode/2024/01", swiftSettings: commonSettings),
+    .executableTarget(name: "red-nosed-reports",  dependencies: commonDependencies, path: "Sources/AdventOfCode/2024/02", swiftSettings: commonSettings),
 
     // 2025
-    .executableTarget(name: "secret-entrance", dependencies: commonDependencies, path: "Sources/2025/01", swiftSettings: commonSettings),
+    .executableTarget(name: "secret-entrance", dependencies: commonDependencies, path: "Sources/AdventOfCode/2025/01", swiftSettings: commonSettings),
 ]
 
 
