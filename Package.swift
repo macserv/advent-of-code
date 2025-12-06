@@ -12,7 +12,7 @@ private let supportedPlatforms: [SupportedPlatform] = [
 ]
 
 private let packageDependencies: [Package.Dependency] = [
-    .github("swift-argument-parser", by: "apple", .upToNextMajor(from: "1.6.1")),
+    .github("swift-argument-parser", by: "apple", .upToNextMajor(from: "1.6.2")),
     .github("swift-algorithms",      by: "apple", .upToNextMajor(from: "1.2.1")),
 ]
 

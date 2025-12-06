@@ -115,7 +115,7 @@ import AdventKit
  * Looking down, its view is also not blocked; it can see `1` tree.
  * Looking right, its view is blocked at `2` trees
     (by a massive tree of height 9).
- 
+
  This tree's scenic score is `8` (`2 * 2 * 1 * 2`); this is the ideal spot for
  the tree house.
 

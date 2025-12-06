@@ -53,10 +53,10 @@ import Algorithms
  step of the above rearrangement procedure, one crate is moved from stack 2 to
  stack 1, resulting in this configuration:
 
- `[D]        `
- `[N] [C]    `
- `[Z] [M] [P]`
- ` 1   2   3 `
+`[D]        `
+`[N] [C]    `
+`[Z] [M] [P]`
+` 1   2   3 `
 
  In the second step, three crates are moved from stack 1 to stack 3. Crates are
  moved one at a time, so the first crate to be moved (D) ends up below the
