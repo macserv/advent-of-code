@@ -195,6 +195,15 @@ struct Dial
         /// The length of the raw value of all cases in this enum.  Useful when
         /// parsing command input for automated rotations... winky face.
         static let rawLength: Int = 1
+
+        var multiplier: Int
+        {
+            switch self
+            {
+                case .r:  1
+                case .l: -1
+            }
+        }
     }
 
 
@@ -219,45 +228,37 @@ struct Dial
 
     /// Rotates the dial with the specified direction, distance, and manner of
     /// counting the dial's interaction with `0`.
-    mutating func rotate(_ direction: Direction, by distance: Int, counting: CountingMode = .whenSelected)
+    mutating func rotate(_ direction: Direction, by ticks: Int, counting: CountingMode = .whenSelected)
     {
-        let startingPosition    : Int = self.position
-        let fullRotationCount   : Int = (distance / Self.positions.count)
-        let effectiveDistance   : Int = (distance - (Self.positions.count * fullRotationCount))
-        let adjustedNewPosition : Int
-        let rawNewPosition      : Int
+        let startingPosition = self.position
+        let fullRotations    = (ticks / Self.positions.count)
+        let remainingTicks   = (ticks % Self.positions.count)
+        let movementDelta    = (startingPosition + (remainingTicks * direction.multiplier))
+        let newPosition      = (((movementDelta % Self.positions.count) + Self.positions.count) % Self.positions.count)
 
-        switch direction
-        {
-            case .r:
-                rawNewPosition = (startingPosition + effectiveDistance)
-                adjustedNewPosition = Self.positions.contains(rawNewPosition) ? rawNewPosition : (rawNewPosition - Self.positions.count)
-            case .l:
-                rawNewPosition = (startingPosition - effectiveDistance)
-                adjustedNewPosition = Self.positions.contains(rawNewPosition) ? rawNewPosition : (rawNewPosition + Self.positions.count)
-        }
+        self.position = newPosition
 
-        self.position = adjustedNewPosition
+        // If we landed on zero, count a click. If we're only counting clicks
+        // when we land on zero (not when we pass it), then we're done!
+        if ( newPosition == Self.positions.lowerBound ) { self.zeroCount += 1 }
+        guard ( counting == .whenPassedOrSelected ) else { return }
 
-        // If we landed on zero, count a click.
-        if ( adjustedNewPosition == Self.positions.lowerBound ) { self.zeroCount += 1 }
-
-        // If we're only counting clicks when we land on zero, we're done.
-        if ( counting != .whenPassedOrSelected ) { return }
-
-        // Count a click for each full rotation of the dial.
-        self.zeroCount += fullRotationCount
+        // We're now counting clicks for passing by zero during a rotation.
+        // Start by counting a click for each full rotation of the dial.
+        self.zeroCount += fullRotations
 
         // Avoid double-counting clicks for starting on zero (i.e., landed on
         // zero last rotation) or landing on zero this rotation.
-        if [adjustedNewPosition, startingPosition].contains(Self.positions.lowerBound) { return }
+        if [newPosition, startingPosition].contains(Self.positions.lowerBound) { return }
 
         // If a left rotation's raw position exceededs the lower bound, or a
         // right rotation's raw position exceededs the upper bound, then we've
         // passed zero; count a click.
-        if ( (direction == .r && rawNewPosition > Self.positions.upperBound) ||
-             (direction == .l && rawNewPosition < Self.positions.lowerBound) ) { self.zeroCount += 1 }
+        if ( (direction == .r && movementDelta > Self.positions.upperBound)
+             || (direction == .l && movementDelta < Self.positions.lowerBound) ) { self.zeroCount += 1 }
     }
 }
+
+
 
 
