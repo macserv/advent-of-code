@@ -15,7 +15,7 @@
         { "id": "if-you-give-a-seed-a-fertilizer-mode", "type": "pickString", "description": "Mode argument for if-you-give-a-seed-a-fertilizer:",  "options": [],                                              "default": "" },
         { "id": "historian-hysteria-mode",              "type": "pickString", "description": "Mode argument for historian-hysteria:",               "options": ["distance", "similarity"],                      "default": "similarity" },
         { "id": "red-nosed-reports-mode",               "type": "pickString", "description": "Mode argument for red-nosed-reports:",                "options": ["strict", "tolerant"],                          "default": "tolerant" },
-        { "id": "secret-entrance-mode",                 "type": "pickString", "description": "Mode argument for secret-entrance:",                  "options": ["countZeros"],                                  "default": "countZeros" },
+        { "id": "secret-entrance-mode",                 "type": "pickString", "description": "Mode argument for secret-entrance:",                  "options": ["--", "--method0x434c49434b"],                    "default": "--method0x434c49434b" },
 
     ],
     "configurations": [
@@ -322,7 +322,7 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [  ],
+            "args": [ "${input:secret-entrance-mode}" ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug secret-entrance",
             "target": "secret-entrance",
@@ -332,7 +332,7 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [  ],
+            "args": [ "${input:secret-entrance-mode}" ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release secret-entrance",
             "target": "secret-entrance",

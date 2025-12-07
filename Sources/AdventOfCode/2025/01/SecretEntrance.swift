@@ -8,6 +8,7 @@
 import Foundation
 import ArgumentParser
 import AdventKit
+import Playgrounds
 
 
 /// Day 1 : Secret Entrance
@@ -40,7 +41,7 @@ import AdventKit
 /// Please see the attached document for the new combination."
 ///
 /// The safe has a dial with only an arrow on it; around the dial are the
-/// numbers `0` through `99` in order.  As you turn the dial, it makes a small
+/// numbers `0` through `99` in order.  As you turn the dial it makes a small
 /// click noise as it reaches each number.
 ///
 /// The attached document (your puzzle input) contains a sequence of
@@ -87,12 +88,12 @@ import AdventKit
 /// - The dial starts by pointing at `50`.
 /// - The dial is rotated `L68` to point at `82`.
 /// - The dial is rotated `L30` to point at `52`.
-/// - The dial is rotated `R48` to point at `0`.
+/// - The dial is rotated `R48` to point at __`0`__.
 /// - The dial is rotated `L5`  to point at `95`.
 /// - The dial is rotated `R60` to point at `55`.
-/// - The dial is rotated `L55` to point at `0`.
+/// - The dial is rotated `L55` to point at __`0`__.
 /// - The dial is rotated `L1`  to point at `99`.
-/// - The dial is rotated `L99` to point at `0`.
+/// - The dial is rotated `L99` to point at __`0`__.
 /// - The dial is rotated `R14` to point at `14`.
 /// - The dial is rotated `L82` to point at `32`.
 ///
@@ -101,24 +102,60 @@ import AdventKit
 ///
 /// Analyze the rotations in your attached document. __What's the actual
 /// password to open the door__?
+///
+/// # Part Two
+///
+/// You're sure that's the right password, but the door won't open.  You knock,
+/// but nobody answers.  You build a snowman while you think.
+///
+/// As you're rolling the snowballs for your snowman, you find another security
+/// document that must have fallen into the snow:
+///
+/// > Due to newer security protocols, please use __password method
+/// > 0x434C49434B__ until further notice.
+///
+/// You remember from the training seminar that "method 0x434C49434B" means
+/// you're actually supposed to count the number of times __any click__ causes
+/// the dial to point at `0`, regardless of whether it happens during a
+/// rotation or at the end of one.
+///
+/// Following the same rotations as in the above example, the dial points at
+/// zero a few extra times during its rotations:
+///
+/// - The dial starts by pointing at 50.
+/// - The dial is rotated `L68` to point at `82`;
+///     during this rotation, it points at __`0`__ once.
+/// - The dial is rotated `L30` to point at `52`.
+/// - The dial is rotated `R48` to point at __`0`__.
+/// - The dial is rotated `L5`  to point at `95`.
+/// - The dial is rotated `R60` to point at `55`;
+///     during this rotation, it points at __`0`__ once.
+/// - The dial is rotated `L55` to point at __`0`__.
+/// - The dial is rotated `L1`  to point at `99`.
+/// - The dial is rotated `L99` to point at __`0`__.
+/// - The dial is rotated `R14` to point at `14`.
+/// - The dial is rotated `L82` to point at `32`;
+///     during this rotation, it points at __`0`__ once.
+///
+/// In this example, the dial points at `0` three times at the end of a
+/// rotation, plus three more times during a rotation. So, in this example, the
+/// new password would be `6`.
+///
+/// Be careful: if the dial were pointing at `50`, a single rotation like
+/// `R1000` would cause the dial to point at `0` ten times before returning
+/// back to `50`!
+///
+/// Using password method 0x434C49434B,
+/// __what is the password toopen the door?__
+
+
 @main
 struct SecretEntrance: AsyncParsableCommand
 {
-//    /// Adds a "sub-command" argument to the command, which allows the logic
-//    /// to branch and handle requirements of either "Part One" or "Part Two".
-//    /// The argument must be a value from this enumeration.
-//    enum Mode: String, ExpressibleByArgument, CaseIterable
-//    {
-//        case <#modeA#>
-//        case <#modeB#>
-//    }
-//    @Argument var mode: Mode
-
-//    /// Adds a flag to the command, named for the behavioral difference in
-//    /// "Part Two."  This allows the command's logic to branch and handle the
-//    /// requirements of either "Part One" or "Part Two".
-//    @Flag(help: "Search for both cardinal values ('one', 'two', ...) and integers.")
-//    var <#partTwoDifference#>: Bool = false
+    /// Apply "password method 0x434C49434B," counting the number of times the
+    /// dial "clicks" at `0`, whether it's during a rotation or at its end.
+    @Flag(help: "Use password method `0x434C49434B`, counting each time the dial “clicks” at `0`, during a rotation, whether in passing or at its end.")
+    var `method0x434c49434b`: Bool = false
 }
 
 
@@ -128,8 +165,86 @@ extension SecretEntrance
 {
     mutating func run() async throws
     {
-        let input: AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines  // FileHandle.standardInput.bytes.lines
-        try await input.reduce(into: []) { $0.append($1) }.forEach { print($0) }
+        var dial = Dial()
+
+        for try await line: String in URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines  // FileHandle.standardInput.bytes.lines
+        {
+            let       distanceIndex      : String.Index   = line.index(line.startIndex, offsetBy: Dial.Direction.rawLength)
+            guard let directionCharacter : Character      = line.first else { throw AteShit(whilst: .parsing, "Couldn't get first character of line.")}
+            guard let direction          : Dial.Direction = .init(rawValue: String(directionCharacter)) else { throw AteShit(whilst: .parsing, "First character of line isn't a valid Direction: '\(line)'.")}
+            guard let distance           : Int            = .init(line[distanceIndex...]) else { throw AteShit(whilst: .parsing, "Couldn't get distance value from line: '\(line)'.")}
+
+            dial.rotate(direction, by: distance, countingZero: (self.method0x434c49434b ? .whenPassedOrSelected : .whenSelected))
+        }
+
+        print(dial.zeroCount)
     }
 }
 
+
+struct Dial
+{
+    /// The direction in which the dial will be rotated.
+    enum Direction: String
+    {
+        /// The rotation will be to the right, or clockwise.
+        case r = "R"
+
+        /// The rotation will be to the left, or counterclockwise.
+        case l = "L"
+
+
+        /// The length of the raw value of all cases in this enum.  Useful when
+        /// parsing command input for automated rotations... winky face.
+        static let rawLength: Int = 1
+    }
+
+    enum ZeroCountingMode
+    {
+        /// ``self.zeroCount`` will be incremented if the dial "clicks" to `0`
+        /// at the end of a rotation.
+        case whenSelected
+
+        /// ``self.zeroCount`` will be incremented whenever the dial "clicks"
+        /// at `0`, whether in passing during a rotation or at its end.  This
+        /// supports password method `0x434C49434B`.
+        case whenPassedOrSelected
+    }
+
+
+    static let positions: ClosedRange<Int> = (0 ... 99)
+    static let startingPosition: Int = 50
+
+    var position: Int = Self.startingPosition
+    var zeroCount: Int = 0
+
+    /// Rotates the dial with the specified direction, distance, and manner of
+    /// counting the dial's interaction with `0`.
+    mutating func rotate(_ direction: Direction, by distance: Int, countingZero: ZeroCountingMode = .whenSelected)
+    {
+        var newPosition: Int = switch direction
+        {
+            case .r: (self.position + distance)
+            case .l: (self.position - distance)
+        }
+
+        while ( false == Self.positions.contains(newPosition) )
+        {
+            newPosition = switch direction
+            {
+                case .r: (newPosition - Self.positions.count)
+                case .l: (newPosition + Self.positions.count)
+            }
+
+            // If we're counting clicks past `0`, and the adjustment passes `0`
+            // (i.e., rotation didn't start or end on it), increment the count.
+            if ( (countingZero == .whenPassedOrSelected) && (false == [newPosition, self.position].contains(0)) ) { self.zeroCount += 1 }
+        }
+
+        self.position = newPosition
+
+        // If the rotation lands on `0`, increment the count
+        // (i.e., rotation didn't start or end on it), increment the count.
+        if (self.position == 0) { print("... 🔺 CLICK! (landed on 0).") ; self.zeroCount += 1 }
+    }
+}
