@@ -1,7 +1,7 @@
 //
 //  SecretEntrance.swift
 //
-//  Created by Matthew Judy on <#YYYY-MM-DD#>.
+//  Created by Matthew Judy on 2025-12-07.
 //
 
 
@@ -167,14 +167,14 @@ extension SecretEntrance
     {
         var dial = Dial()
 
-        for try await line: String in URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines  // FileHandle.standardInput.bytes.lines
+        for try await line: String in URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Input.txt").lines  // FileHandle.standardInput.bytes.lines
         {
             let       distanceIndex      : String.Index   = line.index(line.startIndex, offsetBy: Dial.Direction.rawLength)
-            guard let directionCharacter : Character      = line.first else { throw AteShit(whilst: .parsing, "Couldn't get first character of line.")}
+            guard let directionCharacter : Character      = line.first                                  else { throw AteShit(whilst: .parsing, "Couldn't get first character of line.")}
             guard let direction          : Dial.Direction = .init(rawValue: String(directionCharacter)) else { throw AteShit(whilst: .parsing, "First character of line isn't a valid Direction: '\(line)'.")}
-            guard let distance           : Int            = .init(line[distanceIndex...]) else { throw AteShit(whilst: .parsing, "Couldn't get distance value from line: '\(line)'.")}
+            guard let distance           : Int            = .init(line[distanceIndex...])               else { throw AteShit(whilst: .parsing, "Couldn't get distance value from line: '\(line)'.")}
 
-            dial.rotate(direction, by: distance, countingZero: (self.method0x434c49434b ? .whenPassedOrSelected : .whenSelected))
+            dial.rotate(direction, by: distance, counting: (self.method0x434c49434b ? .whenPassedOrSelected : .whenSelected))
         }
 
         print(dial.zeroCount)
@@ -189,17 +189,16 @@ struct Dial
     {
         /// The rotation will be to the right, or clockwise.
         case r = "R"
-
         /// The rotation will be to the left, or counterclockwise.
         case l = "L"
-
 
         /// The length of the raw value of all cases in this enum.  Useful when
         /// parsing command input for automated rotations... winky face.
         static let rawLength: Int = 1
     }
 
-    enum ZeroCountingMode
+
+    enum CountingMode
     {
         /// ``self.zeroCount`` will be incremented if the dial "clicks" to `0`
         /// at the end of a rotation.
@@ -213,38 +212,52 @@ struct Dial
 
 
     static let positions: ClosedRange<Int> = (0 ... 99)
-    static let startingPosition: Int = 50
 
-    var position: Int = Self.startingPosition
+    var position: Int = 50
     var zeroCount: Int = 0
+
 
     /// Rotates the dial with the specified direction, distance, and manner of
     /// counting the dial's interaction with `0`.
-    mutating func rotate(_ direction: Direction, by distance: Int, countingZero: ZeroCountingMode = .whenSelected)
+    mutating func rotate(_ direction: Direction, by distance: Int, counting: CountingMode = .whenSelected)
     {
-        var newPosition: Int = switch direction
+        let startingPosition    : Int = self.position
+        let fullRotationCount   : Int = (distance / Self.positions.count)
+        let effectiveDistance   : Int = (distance - (Self.positions.count * fullRotationCount))
+        let adjustedNewPosition : Int
+        let rawNewPosition      : Int
+
+        switch direction
         {
-            case .r: (self.position + distance)
-            case .l: (self.position - distance)
+            case .r:
+                rawNewPosition = (startingPosition + effectiveDistance)
+                adjustedNewPosition = Self.positions.contains(rawNewPosition) ? rawNewPosition : (rawNewPosition - Self.positions.count)
+            case .l:
+                rawNewPosition = (startingPosition - effectiveDistance)
+                adjustedNewPosition = Self.positions.contains(rawNewPosition) ? rawNewPosition : (rawNewPosition + Self.positions.count)
         }
 
-        while ( false == Self.positions.contains(newPosition) )
-        {
-            newPosition = switch direction
-            {
-                case .r: (newPosition - Self.positions.count)
-                case .l: (newPosition + Self.positions.count)
-            }
+        self.position = adjustedNewPosition
 
-            // If we're counting clicks past `0`, and the adjustment passes `0`
-            // (i.e., rotation didn't start or end on it), increment the count.
-            if ( (countingZero == .whenPassedOrSelected) && (false == [newPosition, self.position].contains(0)) ) { self.zeroCount += 1 }
-        }
+        // If we landed on zero, count a click.
+        if ( adjustedNewPosition == Self.positions.lowerBound ) { self.zeroCount += 1 }
 
-        self.position = newPosition
+        // If we're only counting clicks when we land on zero, we're done.
+        if ( counting != .whenPassedOrSelected ) { return }
 
-        // If the rotation lands on `0`, increment the count
-        // (i.e., rotation didn't start or end on it), increment the count.
-        if (self.position == 0) { print("... 🔺 CLICK! (landed on 0).") ; self.zeroCount += 1 }
+        // Count a click for each full rotation of the dial.
+        self.zeroCount += fullRotationCount
+
+        // Avoid double-counting clicks for starting on zero (i.e., landed on
+        // zero last rotation) or landing on zero this rotation.
+        if [adjustedNewPosition, startingPosition].contains(Self.positions.lowerBound) { return }
+
+        // If a left rotation's raw position exceededs the lower bound, or a
+        // right rotation's raw position exceededs the upper bound, then we've
+        // passed zero; count a click.
+        if ( (direction == .r && rawNewPosition > Self.positions.upperBound) ||
+             (direction == .l && rawNewPosition < Self.positions.lowerBound) ) { self.zeroCount += 1 }
     }
 }
+
+
