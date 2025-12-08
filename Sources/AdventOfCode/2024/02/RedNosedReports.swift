@@ -44,7 +44,7 @@ extension RedNosedReports
     {
         let maxDelta: Int = 3
         let tolerant: Bool = true
-        let input: AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines  // FileHandle.standardInput.bytes.lines
+        let input: AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines
         let safeReportCount: Int = try await input.reduce(into: 0)
         {
             currentCount, line in

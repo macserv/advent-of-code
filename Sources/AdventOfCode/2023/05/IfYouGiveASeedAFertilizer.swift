@@ -216,8 +216,6 @@ extension IfYouGiveASeedAFertilizer
 {
     mutating func run() async throws
     {
-        // let input = FileHandle.standardInput.bytes.lines.makeAsyncIterator()
-
         var input: AsyncLineSequence.AsyncIterator = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
             .appending(component: "Sample.txt")

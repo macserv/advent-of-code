@@ -197,7 +197,7 @@ extension CubeConundrum
 {
     mutating func run() async throws
     {
-        let input   : AsyncLineSequence = FileHandle.standardInput.bytes.lines
+        let input   : AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines
         let loadout : Grab              = Grab(redCubes: 12, greenCubes: 13, blueCubes: 14)
         let output  : Int               = try await input.reduce(0)
         {

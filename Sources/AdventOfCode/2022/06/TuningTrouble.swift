@@ -97,35 +97,35 @@ import AdventKit
 @main
 struct TuningTrouble: AsyncParsableCommand
 {
-    /// Enumeration for argument which activates "Part Two" behavior
-    enum Mode: String, ExpressibleByArgument, CaseIterable
-    {
-        case packet
-        case message
 
-        var checkLength : Int
-        {
-            switch self
-            {
-                case .packet  : return 4
-                case .message : return 14
-            }
-        }
-    }
-
-    @Option(help: "Switch between searching for 'packet' or 'message' marker.")
-    var mode: Mode
+    @Argument
+    var target: MarkerFinder.Target
 }
 
 
 struct MarkerFinder: AsyncSequence, AsyncIteratorProtocol
 {
-    typealias Element = Character
+    /// Enumeration for argument which activates "Part Two" behavior
+    enum Target: String, CaseIterable, ExpressibleByArgument
+    {
+        case packet
+        case message
 
-    var signalIterator = FileHandle.standardInput.bytes.characters.makeAsyncIterator()
-    var checkSegment   = [Character]()
+        var markerLength: Int
+        {
+            switch self
+            {
+                case .packet  : return  4
+                case .message : return 14
+            }
+        }
+    }
 
-    let mode: TuningTrouble.Mode
+    let target: Target
+
+
+    var signalIterator = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Input.txt").resourceBytes.characters.makeAsyncIterator()
+    var checkSegment = [Character]()
 
 
     var markerIndex : Int
@@ -145,7 +145,7 @@ struct MarkerFinder: AsyncSequence, AsyncIteratorProtocol
     mutating func next() async throws -> Character?
     {
         guard let character = try await signalIterator.next() else { throw FunctionalBreak() }
-        let checkLength = self.mode.checkLength
+        let checkLength = self.target.markerLength
 
         checkSegment.append(character)
 
@@ -156,12 +156,7 @@ struct MarkerFinder: AsyncSequence, AsyncIteratorProtocol
             default                         : break
         }
 
-        if ( checkSegment.isDistinct )
-        {
-            return nil
-        }
-
-        return character
+        return (checkSegment.isDistinct) ? nil : character
     }
 
 
@@ -184,7 +179,7 @@ extension TuningTrouble
 
     mutating func run() async throws
     {
-        let markerIndex = try await MarkerFinder(mode: self.mode).markerIndex
+        let markerIndex = try await MarkerFinder(target: self.target).markerIndex
         print(markerIndex)
     }
 }

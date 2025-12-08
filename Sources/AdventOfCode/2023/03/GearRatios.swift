@@ -156,7 +156,7 @@ extension GearRatios
 
     mutating func run() async throws
     {
-        let input: AsyncLineSequence = FileHandle.standardInput.bytes.lines
+        let input: AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines
         let (symbols, identifiers) : FoundTokens = try await input.enumerated().reduce(into: FoundTokens([], []))
         {
             foundTokens, lineIndexAndLine in let (lineIndex, line) = lineIndexAndLine

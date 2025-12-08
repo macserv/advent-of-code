@@ -167,7 +167,7 @@ extension SecretEntrance
     {
         var dial = Dial()
 
-        for try await line: String in URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Input.txt").lines  // FileHandle.standardInput.bytes.lines
+        for try await line: String in URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines
         {
             let       distanceIndex      : String.Index   = line.index(line.startIndex, offsetBy: Dial.Direction.rawLength)
             guard let directionCharacter : Character      = line.first                                  else { throw AteShit(whilst: .parsing, "Couldn't get first character of line.")}

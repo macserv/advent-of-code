@@ -10,7 +10,7 @@ import ArgumentParser
 import AdventKit
 
 
-/// Day ${1:day_number} : <#Challenge Name#>
+/// Day <#DayNumber#> : <#Challenge Name#>
 ///
 /// # Part One
 ///
@@ -52,7 +52,11 @@ extension <#ChallengeName#>
 {
     mutating func run() async throws
     {
-        let input: AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines  // FileHandle.standardInput.bytes.lines
+        // Asynchronously read each line from a local file URL.
+        // To reads bytes instead, replace `lines` with `resourceBytes`.
+        // To read lines from `stdin`, use `FileHandle.standardInput.bytes.lines`
+        // To read bytes from `stdin`, use `FileHandle.standardInput.bytes`
+        let input: AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines
         try await input.reduce(into: []) { $0.append($1) }.forEach { print($0) }
     }
 }

@@ -57,6 +57,7 @@ private let targets: [Target] = [
 
     // 2025
     .executableTarget(name: "secret-entrance", dependencies: commonDependencies, path: "Sources/AdventOfCode/2025/01", swiftSettings: commonSettings),
+    .executableTarget(name: "gift-shop",       dependencies: commonDependencies, path: "Sources/AdventOfCode/2025/02", swiftSettings: commonSettings),
 ]
 
 

@@ -189,7 +189,7 @@ extension TreetopTreeHouse
 
     mutating func run() async throws
     {
-        let input   : AsyncLineSequence = FileHandle.standardInput.bytes.lines
+        let input   : AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines
         let rows    : [[Int]]           = try await input.reduce(into: [[Int]]()) { $0.append($1.integers) }
         let columns : [[Int]]           = rows[0].enumerated().map { rows[column: $0.0] }
 

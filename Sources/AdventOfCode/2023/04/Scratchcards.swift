@@ -155,7 +155,7 @@ extension Scratchcards
 {
     mutating func run() async throws
     {
-        let input          : AsyncLineSequence = FileHandle.standardInput.bytes.lines
+        let input          : AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Sample.txt").lines
         let winning        = Reference<Set<Int>>()
         let yours          = Reference<Set<Int>>()
         let scratchPattern = Regex
