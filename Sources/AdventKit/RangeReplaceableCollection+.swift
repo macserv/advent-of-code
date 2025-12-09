@@ -9,6 +9,11 @@ import Foundation
 
 extension RangeReplaceableCollection
 {
+    public var rotatedLeft: SubSequence { self.rotatedLeft(by: 1) }
+
+    public var rotatedRight: SubSequence { self.rotatedRight(by: 1) }
+
+
     public func rotatedLeft(by distance: Int) -> SubSequence
     {
         // Handle subarrays, which don't necessarily start at 0.

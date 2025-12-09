@@ -158,8 +158,8 @@ enum Hand: Int, Comparable, CaseIterable
         }
     }
 
-    private static let weakOpponentMap   = Dictionary(uniqueKeysWithValues: zip(Hand.allCases, Hand.allCases.rotatedRight(by: 1)))
-    private static let strongOpponentMap = Dictionary(uniqueKeysWithValues: zip(Hand.allCases, Hand.allCases.rotatedLeft (by: 1)))
+    private static let weakOpponentMap   = Dictionary(uniqueKeysWithValues: zip(Hand.allCases, Hand.allCases.rotatedRight))
+    private static let strongOpponentMap = Dictionary(uniqueKeysWithValues: zip(Hand.allCases, Hand.allCases.rotatedLeft))
 
     var weakOpponent   : Hand { Hand.weakOpponentMap[self]! }
     var strongOpponent : Hand { Hand.strongOpponentMap[self]! }
