@@ -1,10 +1,9 @@
 //
 //  AsyncSequence+AppendFinal.swift
-//  AdventOfCode
+//  AdventKit
 //
 //  Created by Matthew Judy on 12/7/25.
 //
-import Foundation
 
 
 public extension AsyncSequence where Self: Sendable, Element: Sendable

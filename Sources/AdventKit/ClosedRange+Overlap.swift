@@ -1,10 +1,9 @@
 //
 //  ClosedRange+Overlap.swift
+//  AdventKit
 //
 //  Created by Matthew Judy on 12/4/22.
 //
-
-import Foundation
 
 
 extension ClosedRange where Bound : Comparable

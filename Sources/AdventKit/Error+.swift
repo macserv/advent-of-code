@@ -1,11 +1,11 @@
 //
-//  Error.swift
+//  Error+.swift
 //
 //  Created by Matthew Judy on 7/25/19.
 //  Copyright © 2019 NibFile.com. All rights reserved.
 //
 
-import Foundation
+import protocol Foundation.LocalizedError
 
 
 /// Utility for improved expressiveness when intentionally using an exception

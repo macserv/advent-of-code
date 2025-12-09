@@ -1,12 +1,9 @@
 //
 //  String+Periodicity.swift
-//  AdventOfCode
+//  AdventKit
 //
 //  Created by Matthew Judy on 12/8/25.
 //
-
-import Foundation
-
 
 
 public extension StringProtocol
