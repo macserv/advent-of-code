@@ -22,7 +22,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--top", "${input:calorie-counting-mode}" ],
+            "args": [
+                "--top",
+                "${input:calorie-counting-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug calorie-counting",
             "target": "calorie-counting",
@@ -32,7 +35,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--top", "${input:calorie-counting-mode}" ],
+            "args": [
+                "--top",
+                "${input:calorie-counting-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release calorie-counting",
             "target": "calorie-counting",
@@ -42,7 +48,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--moveInterpretation", "${input:rock-paper-scissors-mode}" ],
+            "args": [
+                "--moveInterpretation",
+                "${input:rock-paper-scissors-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug rock-paper-scissors",
             "target": "rock-paper-scissors",
@@ -52,7 +61,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--moveInterpretation", "${input:rock-paper-scissors-mode}" ],
+            "args": [
+                "--moveInterpretation",
+                "${input:rock-paper-scissors-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release rock-paper-scissors",
             "target": "rock-paper-scissors",
@@ -62,7 +74,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--sumPrioritiesOf", "${input:rucksack-reorganization-mode}" ],
+            "args": [
+                "--sumPrioritiesOf",
+                "${input:rucksack-reorganization-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug rucksack-reorganization",
             "target": "rucksack-reorganization",
@@ -72,7 +87,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--sumPrioritiesOf", "${input:rucksack-reorganization-mode}" ],
+            "args": [
+                "--sumPrioritiesOf",
+                "${input:rucksack-reorganization-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release rucksack-reorganization",
             "target": "rucksack-reorganization",
@@ -82,7 +100,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--overlapCheck", "${input:camp-cleanup-mode}" ],
+            "args": [
+                "--overlapCheck",
+                "${input:camp-cleanup-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug camp-cleanup",
             "target": "camp-cleanup",
@@ -92,7 +113,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--overlapCheck", "${input:camp-cleanup-mode}" ],
+            "args": [
+                "--overlapCheck",
+                "${input:camp-cleanup-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release camp-cleanup",
             "target": "camp-cleanup",
@@ -102,7 +126,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:supply-stacks-mode}" ],
+            "args": [
+                "--mode",
+                "${input:supply-stacks-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug supply-stacks",
             "target": "supply-stacks",
@@ -112,7 +139,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:supply-stacks-mode}" ],
+            "args": [
+                "--mode",
+                "${input:supply-stacks-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release supply-stacks",
             "target": "supply-stacks",
@@ -122,7 +152,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:tuning-trouble-mode}" ],
+            "args": [
+                "--mode",
+                "${input:tuning-trouble-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug tuning-trouble",
             "target": "tuning-trouble",
@@ -132,7 +165,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:tuning-trouble-mode}" ],
+            "args": [
+                "--mode",
+                "${input:tuning-trouble-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release tuning-trouble",
             "target": "tuning-trouble",
@@ -142,7 +178,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:no-space-left-on-device-mode}" ],
+            "args": [
+                "--mode",
+                "${input:no-space-left-on-device-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug no-space-left-on-device",
             "target": "no-space-left-on-device",
@@ -152,7 +191,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:no-space-left-on-device-mode}" ],
+            "args": [
+                "--mode",
+                "${input:no-space-left-on-device-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release no-space-left-on-device",
             "target": "no-space-left-on-device",
@@ -162,7 +204,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:treetop-tree-house-mode}" ],
+            "args": [
+                "--mode",
+                "${input:treetop-tree-house-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug treetop-tree-house",
             "target": "treetop-tree-house",
@@ -172,7 +217,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:treetop-tree-house-mode}" ],
+            "args": [
+                "--mode",
+                "${input:treetop-tree-house-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release treetop-tree-house",
             "target": "treetop-tree-house",
@@ -182,7 +230,9 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "${input:trebuchet-mode}" ],
+            "args": [
+                "${input:trebuchet-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug trebuchet",
             "target": "trebuchet",
@@ -192,7 +242,9 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "${input:trebuchet-mode}" ],
+            "args": [
+                "${input:trebuchet-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release trebuchet",
             "target": "trebuchet",
@@ -202,7 +254,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:cube-conundrum-mode}" ],
+            "args": [
+                "--mode",
+                "${input:cube-conundrum-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug cube-conundrum",
             "target": "cube-conundrum",
@@ -212,7 +267,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:cube-conundrum-mode}" ],
+            "args": [
+                "--mode",
+                "${input:cube-conundrum-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release cube-conundrum",
             "target": "cube-conundrum",
@@ -222,7 +280,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:gear-ratios-mode}" ],
+            "args": [
+                "--mode",
+                "${input:gear-ratios-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug gear-ratios",
             "target": "gear-ratios",
@@ -232,7 +293,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:gear-ratios-mode}" ],
+            "args": [
+                "--mode",
+                "${input:gear-ratios-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release gear-ratios",
             "target": "gear-ratios",
@@ -242,7 +306,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:scratchcards-mode}" ],
+            "args": [
+                "--mode",
+                "${input:scratchcards-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug scratchcards",
             "target": "scratchcards",
@@ -252,7 +319,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:scratchcards-mode}" ],
+            "args": [
+                "--mode",
+                "${input:scratchcards-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release scratchcards",
             "target": "scratchcards",
@@ -262,7 +332,7 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [  ],
+            "args": [],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug if-you-give-a-seed-a-fertilizer",
             "target": "if-you-give-a-seed-a-fertilizer",
@@ -272,7 +342,7 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [  ],
+            "args": [],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release if-you-give-a-seed-a-fertilizer",
             "target": "if-you-give-a-seed-a-fertilizer",
@@ -282,7 +352,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:historian-hysteria-mode}" ],
+            "args": [
+                "--mode",
+                "${input:historian-hysteria-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug historian-hysteria",
             "target": "historian-hysteria",
@@ -292,7 +365,10 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "--mode", "${input:historian-hysteria-mode}" ],
+            "args": [
+                "--mode",
+                "${input:historian-hysteria-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release historian-hysteria",
             "target": "historian-hysteria",
@@ -302,7 +378,7 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [  ],
+            "args": [],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug red-nosed-reports",
             "target": "red-nosed-reports",
@@ -312,7 +388,7 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [  ],
+            "args": [],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release red-nosed-reports",
             "target": "red-nosed-reports",
@@ -322,7 +398,9 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "${input:secret-entrance-mode}" ],
+            "args": [
+                "${input:secret-entrance-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug secret-entrance",
             "target": "secret-entrance",
@@ -332,12 +410,34 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [ "${input:secret-entrance-mode}" ],
+            "args": [
+                "${input:secret-entrance-mode}"
+            ],
             "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release secret-entrance",
             "target": "secret-entrance",
             "configuration": "release",
             "preLaunchTask": "swift: Build Release secret-entrance"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug gift-shop",
+            "target": "gift-shop",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug gift-shop"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release gift-shop",
+            "target": "gift-shop",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release gift-shop"
         }
     ]
 }
