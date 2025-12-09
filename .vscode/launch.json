@@ -1,70 +1,136 @@
 {
+    "inputs": [
+        { "id": "calorie-counting-mode",                "type": "pickString", "description": "Mode argument for calorie-counting:",                 "options": ["1", "3"],                                      "default": "3" },
+        { "id": "rock-paper-scissors-mode",             "type": "pickString", "description": "Mode argument for rock-paper-scissors:",              "options": ["hand", "outcome"],                             "default": "outcome" },
+        { "id": "rucksack-reorganization-mode",         "type": "pickString", "description": "Mode argument for rucksack-reorganization:",          "options": ["duplicateItems", "teamBadgeItems"],            "default": "teamBadgeItems" },
+        { "id": "camp-cleanup-mode",                    "type": "pickString", "description": "Mode argument for camp-cleanup:",                     "options": ["partial", "complete"],                         "default": "complete" },
+        { "id": "supply-stacks-mode",                   "type": "pickString", "description": "Mode argument for supply-stacks:",                    "options": ["CM9000", "CM9001"],                            "default": "CM9001" },
+        { "id": "tuning-trouble-mode",                  "type": "pickString", "description": "Mode argument for tuning-trouble:",                   "options": ["packet", "message"],                           "default": "message" },
+        { "id": "no-space-left-on-device-mode",         "type": "pickString", "description": "Mode argument for no-space-left-on-device:",          "options": ["sumOf100kOrLess", "sizeOfSmallestBigEnough"],  "default": "sizeOfSmallestBigEnough" },
+        { "id": "treetop-tree-house-mode",              "type": "pickString", "description": "Mode argument for treetop-tree-house:",               "options": ["visibleTreeCount", "bestScenicScore"],         "default": "bestScenicScore" },
+        { "id": "trebuchet-mode",                       "type": "pickString", "description": "Mode argument for trebuchet:",                        "options": ["", "--includeCardinals"],                      "default": "--includeCardinals" },
+        { "id": "cube-conundrum-mode",                  "type": "pickString", "description": "Mode argument for cube-conundrum:",                   "options": ["sumOfGameIDs", "sumOfGamePowers"],             "default": "sumOfGamePowers" },
+        { "id": "gear-ratios-mode",                     "type": "pickString", "description": "Mode argument for gear-ratios:",                      "options": ["partNumberSum", "gearRatioSum"],               "default": "gearRatioSum" },
+        { "id": "scratchcards-mode",                    "type": "pickString", "description": "Mode argument for scratchcards:",                     "options": ["sumOfPointsWon", "countOfScratchcardsWon"],    "default": "countOfScratchcardsWon" },
+        { "id": "if-you-give-a-seed-a-fertilizer-mode", "type": "pickString", "description": "Mode argument for if-you-give-a-seed-a-fertilizer:",  "options": [],                                              "default": "" },
+        { "id": "historian-hysteria-mode",              "type": "pickString", "description": "Mode argument for historian-hysteria:",               "options": ["distance", "similarity"],                      "default": "similarity" },
+        { "id": "red-nosed-reports-mode",               "type": "pickString", "description": "Mode argument for red-nosed-reports:",                "options": ["strict", "tolerant"],                          "default": "tolerant" },
+        { "id": "secret-entrance-mode",                 "type": "pickString", "description": "Mode argument for secret-entrance:",                  "options": ["--", "--method0x434c49434b"],                    "default": "--method0x434c49434b" },
+
+    ],
     "configurations": [
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug tuning-trouble",
-            "target": "tuning-trouble",
+            "args": [
+                "--top",
+                "${input:calorie-counting-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug calorie-counting",
+            "target": "calorie-counting",
             "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug tuning-trouble"
+            "preLaunchTask": "swift: Build Debug calorie-counting"
         },
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release tuning-trouble",
-            "target": "tuning-trouble",
+            "args": [
+                "--top",
+                "${input:calorie-counting-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release calorie-counting",
+            "target": "calorie-counting",
             "configuration": "release",
-            "preLaunchTask": "swift: Build Release tuning-trouble"
+            "preLaunchTask": "swift: Build Release calorie-counting"
         },
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug treetop-tree-house",
-            "target": "treetop-tree-house",
+            "args": [
+                "--moveInterpretation",
+                "${input:rock-paper-scissors-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug rock-paper-scissors",
+            "target": "rock-paper-scissors",
             "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug treetop-tree-house"
+            "preLaunchTask": "swift: Build Debug rock-paper-scissors"
         },
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release treetop-tree-house",
-            "target": "treetop-tree-house",
+            "args": [
+                "--moveInterpretation",
+                "${input:rock-paper-scissors-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release rock-paper-scissors",
+            "target": "rock-paper-scissors",
             "configuration": "release",
-            "preLaunchTask": "swift: Build Release treetop-tree-house"
+            "preLaunchTask": "swift: Build Release rock-paper-scissors"
         },
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug trebuchet",
-            "target": "trebuchet",
+            "args": [
+                "--sumPrioritiesOf",
+                "${input:rucksack-reorganization-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug rucksack-reorganization",
+            "target": "rucksack-reorganization",
             "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug trebuchet"
+            "preLaunchTask": "swift: Build Debug rucksack-reorganization"
         },
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release trebuchet",
-            "target": "trebuchet",
+            "args": [
+                "--sumPrioritiesOf",
+                "${input:rucksack-reorganization-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release rucksack-reorganization",
+            "target": "rucksack-reorganization",
             "configuration": "release",
-            "preLaunchTask": "swift: Build Release trebuchet"
+            "preLaunchTask": "swift: Build Release rucksack-reorganization"
         },
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
+            "args": [
+                "--overlapCheck",
+                "${input:camp-cleanup-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug camp-cleanup",
+            "target": "camp-cleanup",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug camp-cleanup"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--overlapCheck",
+                "${input:camp-cleanup-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release camp-cleanup",
+            "target": "camp-cleanup",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release camp-cleanup"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:supply-stacks-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug supply-stacks",
             "target": "supply-stacks",
             "configuration": "debug",
@@ -73,8 +139,11 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
+            "args": [
+                "--mode",
+                "${input:supply-stacks-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release supply-stacks",
             "target": "supply-stacks",
             "configuration": "release",
@@ -83,8 +152,165 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
+            "args": [
+                "--mode",
+                "${input:tuning-trouble-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug tuning-trouble",
+            "target": "tuning-trouble",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug tuning-trouble"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:tuning-trouble-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release tuning-trouble",
+            "target": "tuning-trouble",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release tuning-trouble"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:no-space-left-on-device-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug no-space-left-on-device",
+            "target": "no-space-left-on-device",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug no-space-left-on-device"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:no-space-left-on-device-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release no-space-left-on-device",
+            "target": "no-space-left-on-device",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release no-space-left-on-device"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:treetop-tree-house-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug treetop-tree-house",
+            "target": "treetop-tree-house",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug treetop-tree-house"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:treetop-tree-house-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release treetop-tree-house",
+            "target": "treetop-tree-house",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release treetop-tree-house"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "${input:trebuchet-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug trebuchet",
+            "target": "trebuchet",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug trebuchet"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "${input:trebuchet-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release trebuchet",
+            "target": "trebuchet",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release trebuchet"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:cube-conundrum-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug cube-conundrum",
+            "target": "cube-conundrum",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug cube-conundrum"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:cube-conundrum-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release cube-conundrum",
+            "target": "cube-conundrum",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release cube-conundrum"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:gear-ratios-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug gear-ratios",
+            "target": "gear-ratios",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug gear-ratios"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:gear-ratios-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release gear-ratios",
+            "target": "gear-ratios",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release gear-ratios"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "--mode",
+                "${input:scratchcards-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug scratchcards",
             "target": "scratchcards",
             "configuration": "debug",
@@ -93,8 +319,11 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
+            "args": [
+                "--mode",
+                "${input:scratchcards-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release scratchcards",
             "target": "scratchcards",
             "configuration": "release",
@@ -104,67 +333,7 @@
             "type": "swift",
             "request": "launch",
             "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug rucksack-reorganization",
-            "target": "rucksack-reorganization",
-            "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug rucksack-reorganization"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release rucksack-reorganization",
-            "target": "rucksack-reorganization",
-            "configuration": "release",
-            "preLaunchTask": "swift: Build Release rucksack-reorganization"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug rock-paper-scissors",
-            "target": "rock-paper-scissors",
-            "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug rock-paper-scissors"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release rock-paper-scissors",
-            "target": "rock-paper-scissors",
-            "configuration": "release",
-            "preLaunchTask": "swift: Build Release rock-paper-scissors"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug no-space-left-on-device",
-            "target": "no-space-left-on-device",
-            "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug no-space-left-on-device"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release no-space-left-on-device",
-            "target": "no-space-left-on-device",
-            "configuration": "release",
-            "preLaunchTask": "swift: Build Release no-space-left-on-device"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
+            "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug if-you-give-a-seed-a-fertilizer",
             "target": "if-you-give-a-seed-a-fertilizer",
             "configuration": "debug",
@@ -174,7 +343,7 @@
             "type": "swift",
             "request": "launch",
             "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
+            "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release if-you-give-a-seed-a-fertilizer",
             "target": "if-you-give-a-seed-a-fertilizer",
             "configuration": "release",
@@ -183,8 +352,11 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
+            "args": [
+                "--mode",
+                "${input:historian-hysteria-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug historian-hysteria",
             "target": "historian-hysteria",
             "configuration": "debug",
@@ -193,8 +365,11 @@
         {
             "type": "swift",
             "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
+            "args": [
+                "--mode",
+                "${input:historian-hysteria-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release historian-hysteria",
             "target": "historian-hysteria",
             "configuration": "release",
@@ -204,87 +379,7 @@
             "type": "swift",
             "request": "launch",
             "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug gear-ratios",
-            "target": "gear-ratios",
-            "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug gear-ratios"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release gear-ratios",
-            "target": "gear-ratios",
-            "configuration": "release",
-            "preLaunchTask": "swift: Build Release gear-ratios"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug cube-conundrum",
-            "target": "cube-conundrum",
-            "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug cube-conundrum"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release cube-conundrum",
-            "target": "cube-conundrum",
-            "configuration": "release",
-            "preLaunchTask": "swift: Build Release cube-conundrum"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug camp-cleanup",
-            "target": "camp-cleanup",
-            "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug camp-cleanup"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release camp-cleanup",
-            "target": "camp-cleanup",
-            "configuration": "release",
-            "preLaunchTask": "swift: Build Release camp-cleanup"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Debug calorie-counting",
-            "target": "calorie-counting",
-            "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug calorie-counting"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
-            "name": "Release calorie-counting",
-            "target": "calorie-counting",
-            "configuration": "release",
-            "preLaunchTask": "swift: Build Release calorie-counting"
-        },
-        {
-            "type": "swift",
-            "request": "launch",
-            "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
+            "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Debug red-nosed-reports",
             "target": "red-nosed-reports",
             "configuration": "debug",
@@ -294,11 +389,55 @@
             "type": "swift",
             "request": "launch",
             "args": [],
-            "cwd": "${workspaceFolder:advent-of-code}",
+            "cwd": "${workspaceFolder:AdventOfCode}",
             "name": "Release red-nosed-reports",
             "target": "red-nosed-reports",
             "configuration": "release",
             "preLaunchTask": "swift: Build Release red-nosed-reports"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "${input:secret-entrance-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug secret-entrance",
+            "target": "secret-entrance",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug secret-entrance"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [
+                "${input:secret-entrance-mode}"
+            ],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release secret-entrance",
+            "target": "secret-entrance",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release secret-entrance"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Debug gift-shop",
+            "target": "gift-shop",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug gift-shop"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:AdventOfCode}",
+            "name": "Release gift-shop",
+            "target": "gift-shop",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release gift-shop"
         }
     ]
 }

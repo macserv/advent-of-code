@@ -1,5 +1,6 @@
 //
 //  String+.swift
+//  AdventKit
 //
 //  Created by Matthew Judy on 12/4/23.
 //

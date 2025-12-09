@@ -1,13 +1,12 @@
 //
-//  File.swift
-//  
+//  AsyncSequence+Enumerated.swift
+//  AdventKit
 //
 //  Created by Matthew Judy on 12/21/23.
 //
 //  TODO: Use the implementation found in swift-async-algorithms when this PR is merged:
 //  https://github.com/apple/swift-async-algorithms/pull/261
 //
-
 
 
 /// An enumeration of the elements of an AsyncSequence.
@@ -59,7 +58,7 @@ extension AsyncEnumeratedSequence: AsyncSequence
     }
 
     @inlinable
-    public __consuming func makeAsyncIterator() -> AsyncIterator
+    public consuming func makeAsyncIterator() -> AsyncIterator
     {
         return .init(baseIterator: self.base.makeAsyncIterator())
     }
