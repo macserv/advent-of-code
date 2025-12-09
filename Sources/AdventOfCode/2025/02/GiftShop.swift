@@ -122,55 +122,95 @@ struct GiftShop: AsyncParsableCommand
 
 extension GiftShop
 {
-    enum ControlCharacter: Character, RawRepresentable
-    {
-        case rangeSeparator  = ","
-        case boundsSeparator = "-"
-        case newline         = "\n"
-    }
-
     mutating func run() async throws
     {
-        // Parse the input as an ``AsyncCharacterSequence``.  Filter the
-        // trailing newline (for input files) and tse a custom wrapper to
-        // append a final range separator character for simpler parsing.
-        let input: AsyncStream<Character> = URL(filePath: #filePath)
+        // Stream the input as async characters. Filter (input file) newlines.
+        let asyncCharacters: AsyncCharacterSequence = URL(filePath: #filePath)
             .deletingLastPathComponent()
             .appending(path: "Input.txt")
             .resourceBytes
             .characters
-            .filter { $0 != ControlCharacter.newline.rawValue }
-            .appendingFinalValue(ControlCharacter.rangeSeparator.rawValue)
 
+        let asyncRanges = AsyncProductIDRangeParsingSequence(stream: asyncCharacters)
 
-        let productIDRangeBuilder: (ranges: [ClosedRange<UInt>], currentSpec: String) = try await input.reduce(into: ([], ""))
+        let sumOfInvalidIDs: some UnsignedInteger = try await asyncRanges.reduce(into: 0)
         {
-            if ( $1 != ControlCharacter.rangeSeparator.rawValue )
+            sumResult, range in
+            sumResult += range.reduce(into: 0)
             {
-                $0.currentSpec.append($1)
-                return
+                rangeSumResult, productID in
+                if productID.isInvalid(checkingFor: self.invalidIDCondition) { rangeSumResult += productID }
+            }
+        }
+
+        print(sumOfInvalidIDs)
+    }
+}
+
+
+/// An async sequence that parses comma-separated range specs from a character stream.
+struct AsyncProductIDRangeParsingSequence: AsyncSequence
+{
+    struct AsyncIterator: AsyncIteratorProtocol
+    {
+        enum ParsingCharacter: Character, RawRepresentable
+        {
+            case rangeSeparator  = ","
+            case boundsSeparator = "-"
+            case newline         = "\n"
+        }
+
+
+        var iterator: AsyncCharacterSequence<URL.AsyncBytes>.AsyncIterator
+        var buffer = ""
+
+
+        mutating func next() async throws -> ClosedRange<UInt>?
+        {
+            while let char = try await self.iterator.next()
+            {
+                switch char
+                {
+                    case ParsingCharacter.rangeSeparator.rawValue:
+                        let rangeSpec = self.buffer
+                        self.buffer = ""
+                        return try self.rangeFromSpec(rangeSpec)
+
+                    case ParsingCharacter.newline.rawValue: continue
+
+                    default: self.buffer.append(char)
+                }
             }
 
-            let rangeBounds = $0.currentSpec.split(separator: ControlCharacter.boundsSeparator.rawValue)
-            guard (rangeBounds.count == 2) else { throw AteShit(whilst: .parsing) }
+            // If no more characters, return any buffer contents.
+            if ( false == self.buffer.isEmpty )
+            {
+                defer { self.buffer = "" }
+                return try self.rangeFromSpec(self.buffer)
+            }
+
+            return nil
+        }
+
+
+        private func rangeFromSpec(_ rangeSpec: String) throws -> ClosedRange<UInt>
+        {
+            let rangeBounds = rangeSpec.split(separator: ParsingCharacter.boundsSeparator.rawValue)
+            guard rangeBounds.count == 2 else { throw AteShit(whilst: .parsing) }
 
             guard let lowerBoundValue = UInt(rangeBounds[0]),
                   let upperBoundValue = UInt(rangeBounds[1]) else { throw AteShit(whilst: .parsing) }
 
-            $0.currentSpec = ""
-            $0.ranges.append(lowerBoundValue...upperBoundValue)
-        }
+            let range = (lowerBoundValue...upperBoundValue)
 
-        let invalidIDs: [UInt] = productIDRangeBuilder.ranges.reduce(into: [])
-        {
-            $0.append(contentsOf: $1.reduce(into: [])
-            {
-                if $1.isInvalidProductID(checkingFor: self.invalidIDCondition) { $0.append($1) }
-            })
+            return range
         }
-
-        print(invalidIDs.sum())
     }
+
+
+    let stream: AsyncCharacterSequence<URL.AsyncBytes>
+
+    func makeAsyncIterator() -> AsyncIterator { AsyncIterator(iterator: stream.makeAsyncIterator()) }
 }
 
 
@@ -178,7 +218,7 @@ extension GiftShop
 
 extension UnsignedInteger
 {
-    func isInvalidProductID(checkingFor: GiftShop.InvalidIDCondition) -> Bool
+    func isInvalid(checkingFor: GiftShop.InvalidIDCondition) -> Bool
     {
         switch checkingFor
         {
