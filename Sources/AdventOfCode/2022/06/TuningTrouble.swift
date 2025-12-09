@@ -144,7 +144,7 @@ struct MarkerFinder: AsyncSequence, AsyncIteratorProtocol
 
     mutating func next() async throws -> Character?
     {
-        guard let character = try await signalIterator.next() else { throw FunctionalBreak() }
+        guard let character = try await signalIterator.next() else { throw StopIterating() }
         let checkLength = self.target.markerLength
 
         checkSegment.append(character)

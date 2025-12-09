@@ -11,7 +11,7 @@ import Foundation
 /// Utility for improved expressiveness when intentionally using an exception
 /// to break the iteration loop of a higher-order function, e.g., when
 /// implementing ``AsyncIteratorProtocol.next()``.
-public struct FunctionalBreak: Error, Sendable { public init() {} }
+public struct StopIterating: Error, Sendable { public init() {} }
 
 
 /// A highly-expressive, general purpose error type that can be used to
@@ -27,6 +27,7 @@ public struct FunctionalBreak: Error, Sendable { public init() {} }
 ///
 /// - Example:
 ///     ```
+///     throw AteShit(whilst: .parsing,)
 ///     throw AteShit(
 ///         whilst: .initializing,
 ///         "We done f-ed up."
@@ -34,8 +35,7 @@ public struct FunctionalBreak: Error, Sendable { public init() {} }
 ///     ```
 ///
 /// - Remark:
-///     I'm making a note here: the app ate shit.
-///
+///     I'm making a note here: your code ate shit.
 public struct AteShit: LocalizedError, Sendable
 {
     public enum Fuckery : String, Sendable
@@ -51,26 +51,30 @@ public struct AteShit: LocalizedError, Sendable
         case decoding
     }
 
+
     public let whilst      : Fuckery
+    public let cause       : Error?
     public let grimDetails : String?
 
 
-    public init(whilst: Fuckery, _ grimDetails: String? = nil)
+
+    public init(whilst: Fuckery, becauseOf cause: Error? = nil, _ grimDetails: String? = nil)
     {
         self.whilst      = whilst
+        self.cause       = cause
         self.grimDetails = grimDetails
     }
 
 
     public var errorDescription: String
     {
-        let description = "[ERROR] The app ate shit whilst \(self.whilst)"
-
-        switch self.grimDetails
-        {
-            case .none: return description
-            case .some(let accessory): return description.appending(": '\(String(describing: accessory))'")
-        }
+        return [
+            "[ERROR] Your code ate shit whilst \(self.whilst).",
+            (self.grimDetails == nil) ? nil : "“\(self.grimDetails!)”.",
+            (self.cause       == nil) ? nil : "Caused by \(type(of: self.cause)): [ \(self.cause!) ].",
+        ]
+            .compactMap { $0 }
+            .joined(separator: "  ")
     }
 }
 
