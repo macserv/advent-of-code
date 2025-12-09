@@ -50,46 +50,71 @@ import Playgrounds
 /// In the above example:
 ///
 /// * `11-22`                 has two invalid IDs, `11` and `22`.
-/// * `95-115`                has one invalid ID,  `99`.
-/// * `998-1012`              has one invalid ID,  `1010`.
-/// * `1188511880-1188511890` has one invalid ID,  `1188511885`.
-/// * `222220-222224`         has one invalid ID,  `222222`.
+/// * `95-115`                has one invalid ID,           `99`.
+/// * `998-1012`              has one invalid ID,         `1010`.
+/// * `1188511880-1188511890` has one invalid ID,   `1188511885`.
+/// * `222220-222224`         has one invalid ID,       `222222`.
 /// * `1698522-1698528`       contains no invalid IDs.
-/// * `446443-446449`         has one invalid ID,  `446446`.
-/// * `38593856-38593862`     has one invalid ID,  `38593859`.
+/// * `446443-446449`         has one invalid ID,       `446446`.
+/// * `38593856-38593862`     has one invalid ID,     `38593859`.
 /// * The rest of the ranges contain no invalid IDs.
 ///
 /// Adding up all the invalid IDs in this example produces `1227775554`.
 ///
 /// _What do you get if you add up all of the invalid IDs?_
+///
+/// # Part Two
+///
+/// The clerk quickly discovers that there are still invalid IDs in the ranges
+/// in your list. Maybe the young Elf was doing other silly patterns as well?
+///
+/// Now, an ID is invalid if it is made only of some sequence of digits
+/// repeated _at least_ twice. So, `12341234` (`1234` two times), `123123123`
+/// (`123` three times), `1212121212` (`12` five times), and `1111111`
+/// (`1` seven times) are all invalid IDs.
+///
+/// From the same example as before:
+///
+/// * `11-22`                 still has two invalid IDs,  `11` and   `22`.
+/// * `95-115`                now   has two invalid IDs,  `99` and  `111`.
+/// * `998-1012`              now   has two invalid IDs, `999` and `1010`.
+/// * `1188511880-1188511890` still has one invalid ID,      `1188511885`.
+/// * `222220-222224`         still has one invalid ID,          `222222`.
+/// * `1698522-1698528`       still contains no invalid IDs.
+/// * `446443-446449`         still has one invalid ID,          `446446`.
+/// * `38593856-38593862`     still has one invalid ID,        `38593859`.
+/// * `565653-565659`         now   has one invalid ID,          `565656`.
+/// * `824824821-824824827`   now   has one invalid ID,       `824824824`.
+/// * `2121212118-2121212124` now   has one invalid ID,      `2121212121`.
+///
+/// Adding up all the invalid IDs in this example produces `4174379265`.
+///
+/// _What do you get if you add up all of the invalid IDs using
+/// these new rules?_
+
 @main
 struct GiftShop: AsyncParsableCommand
 {
-//    /// Adds a positional argument to the command.  When `@Argument` is
-//    /// applied to an enum type, its value must match one of the cases.
-//    /// This can be used to create a "sub-command" for selecting "Part One"
-//    /// or "Part Two" logic, with the cases named for each part's objective.
-//    enum <#Mode#>: String, ExpressibleByArgument, CaseIterable
-//    {
-//        case <#partOneObjective#>
-//        case <#partTwoObjective#>
-//    }
-//    @Argument(help: "<#Operating mode in which the command should be run.#>")
-//    var <#modeArgument#>: <#Mode#>
+    /// Available options for identifying invalid product identifiers.
+    enum InvalidIDCondition: String, ExpressibleByArgument, CaseIterable
+    {
+        case oneRepetition
+        case oneOrMoreRepetitions
 
-//    /// Adds a flag to the command.  For most exercises, this would be named
-//    /// for the behavioral difference in "Part Two," and its value will be
-//    /// used to switch the logic flow to handle that behavior. Note: the name
-//    /// will be converted to kebab-case (e.g., `--part-two-logic-flag``).
-//    @Flag(help: "<#Do the thing differently for Part Two.#>")
-//    var <#partTwoLogicFlag#>: Bool = false
+        var defaultValueDescription: String
+        {
+            switch self
+            {
+                case .oneRepetition        : "Evaluated IDs are invalid if comprised of a sequence of digits repeating once (e.g., 11, 1212, 123123)."
+                case .oneOrMoreRepetitions : "Evaluated IDs are invalid if comprised of a sequence of digits repeating any number of times (e.g., 11, 111, 1212, 121212, 123123, 123123123)."
+            }
+        }
+    }
 
-//    /// Adds an option to the command, which is a flag paired with a trailing
-//    /// argument.  This is useful when the difference between "Part One" and
-//    /// "Part Two" can be represented with a single scalar value.  Note: the
-//    /// name will be converted to kebab-case (e.g., `--modifier-option``).
-//     @Option(help: "<#A value which modifes the command's behavior for Part Two#>")
-//     var <#modifierOption#>: Int = 1
+    /// Subcommand to determine which logic should be used to identify invalid
+    /// product IDs.
+    @Argument()
+    var invalidIDCondition: InvalidIDCondition
 }
 
 
@@ -97,50 +122,50 @@ struct GiftShop: AsyncParsableCommand
 
 extension GiftShop
 {
-    enum ControlCharacter: Character
+    enum ControlCharacter: Character, RawRepresentable
     {
-        case rangeSeparator = ","
+        case rangeSeparator  = ","
         case boundsSeparator = "-"
+        case newline         = "\n"
     }
 
     mutating func run() async throws
     {
-        let input: AsyncCharacterSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Input.txt").resourceBytes.characters
+        // Parse the input as an ``AsyncCharacterSequence``.  Filter the
+        // trailing newline (for input files) and tse a custom wrapper to
+        // append a final range separator character for simpler parsing.
+        let input: AsyncStream<Character> = URL(filePath: #filePath)
+            .deletingLastPathComponent()
+            .appending(path: "Input.txt")
+            .resourceBytes
+            .characters
+            .filter { $0 != ControlCharacter.newline.rawValue }
+            .appendingFinalValue(ControlCharacter.rangeSeparator.rawValue)
 
-        let validRangeBuilder: (validRanges: [ClosedRange<Int>], currentSpec: String) = try await input.reduce(into: ([], ""))
+
+        let productIDRangeBuilder: (ranges: [ClosedRange<UInt>], currentSpec: String) = try await input.reduce(into: ([], ""))
         {
-            if $1 != ControlCharacter.rangeSeparator.rawValue
+            if ( $1 != ControlCharacter.rangeSeparator.rawValue )
             {
                 $0.currentSpec.append($1)
                 return
             }
 
-            let rangeSpecBounds = $0.currentSpec.split(separator: ControlCharacter.boundsSeparator.rawValue)
-            guard (rangeSpecBounds.count == 2) else { throw AteShit(whilst: .parsing) }
+            let rangeBounds = $0.currentSpec.split(separator: ControlCharacter.boundsSeparator.rawValue)
+            guard (rangeBounds.count == 2) else { throw AteShit(whilst: .parsing) }
 
-            let lowerBound = rangeSpecBounds[0]
-            let upperBound = rangeSpecBounds[1]
-
-            guard let upperBoundValue = Int(upperBound),
-                  let lowerBoundValue = Int(lowerBound) else { throw AteShit(whilst: .parsing) }
+            guard let lowerBoundValue = UInt(rangeBounds[0]),
+                  let upperBoundValue = UInt(rangeBounds[1]) else { throw AteShit(whilst: .parsing) }
 
             $0.currentSpec = ""
-            $0.validRanges.append(lowerBoundValue...upperBoundValue)
+            $0.ranges.append(lowerBoundValue...upperBoundValue)
         }
 
-        let invalidIDs: [Int] = validRangeBuilder.validRanges.reduce(into: [])
+        let invalidIDs: [UInt] = productIDRangeBuilder.ranges.reduce(into: [])
         {
             $0.append(contentsOf: $1.reduce(into: [])
             {
-                let stringValue = String($1)
-                let digitCount = stringValue.count
-                guard ( digitCount % 2 == 0 ) else { return }
-
-                let midpointIndex = stringValue.index(stringValue.startIndex, offsetBy: (digitCount / 2))
-                let lastIndex = stringValue.index(before: stringValue.endIndex)
-                guard ( stringValue[stringValue.startIndex ..< midpointIndex] == stringValue[midpointIndex ... lastIndex] )  else { return }
-
-                $0.append($1)
+                if $1.isInvalidProductID(checkingFor: self.invalidIDCondition) { $0.append($1) }
             })
         }
 
@@ -148,4 +173,24 @@ extension GiftShop
     }
 }
 
-// 23051402777
+
+
+
+extension UnsignedInteger
+{
+    func isInvalidProductID(checkingFor: GiftShop.InvalidIDCondition) -> Bool
+    {
+        switch checkingFor
+        {
+            case .oneRepetition:
+                let stringValue = String(self)
+                guard ( (stringValue.count % 2) == 0 ) else { return false }
+                return stringValue.isPeriodic(period: (stringValue.count / 2))
+
+            case .oneOrMoreRepetitions:
+                return self.isPeriodic
+        }
+    }
+}
+
+

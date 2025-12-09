@@ -41,8 +41,8 @@ struct <#ChallengeName#>: AsyncParsableCommand
 //    /// argument.  This is useful when the difference between "Part One" and
 //    /// "Part Two" can be represented with a single scalar value.  Note: the
 //    /// name will be converted to kebab-case (e.g., `--modifier-option``).
-//     @Option(help: "<#A value which modifes the command's behavior for Part Two#>")
-//     var <#modifierOption#>: Int = 1
+//    @Option(help: "<#A value which modifes the command's behavior for Part Two#>")
+//    var <#modifierOption#>: Int = 1
 }
 
 
