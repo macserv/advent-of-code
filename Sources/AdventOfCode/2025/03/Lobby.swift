@@ -121,7 +121,8 @@ extension Lobby
             // Convert each character to an integer digit.
             let bankJoltages: [UInt] = $1.map { UInt(String($0))! }
 
-            // Use a stack to maximize the joltage by removing the weakest digits strategically
+            // Use a stack to maximize the joltage by removing the weakest
+            // digits strategically
             var stack = [UInt]()
             var removalsLeft = bankJoltages.count - self.batteriesPerBank
 
@@ -147,9 +148,6 @@ extension Lobby
 
             // Multiply each digit by its magnitude to get the bank's joltage.
             let bankJoltage = stack.reduce(0) { ($0 * 10) + $1 }
-
-            print(bankJoltage)
-
             $0 += bankJoltage
         }
 
