@@ -91,7 +91,6 @@ import Playgrounds
 ///
 /// _What do you get if you add up all of the invalid IDs using
 /// these new rules?_
-
 @main
 struct GiftShop: AsyncParsableCommand
 {
@@ -111,8 +110,8 @@ struct GiftShop: AsyncParsableCommand
         }
     }
 
-    /// Subcommand to determine which logic should be used to identify invalid
-    /// product IDs.
+    /// Subcommand to determine which logic should be used to identify
+    /// invalid product IDs.
     @Argument()
     var invalidIDCondition: InvalidIDCondition
 }
