@@ -116,38 +116,52 @@ extension Lobby
     mutating func run() async throws
     {
         let input: AsyncLineSequence = URL(filePath: #filePath).deletingLastPathComponent().appending(path: "Input.txt").lines
-        let totalJoltage = try await input.reduce(into: UInt(0))
+        let totalJoltage = try await input.reduce(into: Int(0))
         {
             // Convert each character to an integer digit.
-            let bankJoltages: [UInt] = $1.map { UInt(String($0))! }
+            let bankJoltages : [Int] = $1.map { Int(String($0))! }
 
-            // Use a stack to maximize the joltage by removing the weakest
-            // digits strategically
-            var stack = [UInt]()
-            var removalsLeft = bankJoltages.count - self.batteriesPerBank
+            // Seek Scheme:
+            // On each iteration, the higest joltage must be found within the
+            // a range at the start of `bankJoltages`.  On the first iteration,
+            // the range is `0...(bankJoltages.count - self.batteriesPerBank)`.
+            //
+            // This ensures that a mimumum of `self.batteriesPerBank - 1`
+            // digits are available for subsequent iterations.
+            //
+            // On each subsequent iteration, the lower bound moves to the index
+            // after the offset where the highest joltage was just found,
+            // and the upper bound moves "one to the right".
+            //
+            // Example: `234234234234278`
+            // * bankJoltages.count    == 15
+            // * self.batteriesPerBank == 12  // loop and decrement this.
+            //     234234234234278 | seek : 0...(15 - 12)
+            //     --^-            | top  : (offset: 2, element: 4)  // take `4`.
+            //     234234234234278 | seek : (0 + 2 + 1)...(15 - 11)
+            //        -^           | top  : (offset: 1, element: 3) ... take `3`.
+            //     234234234234278 | seek : (3 + 1 + 1)...(15 - 10)
+            //          -          | Upper & lower bounds are the same...
+            //          ^^^^^^^^^^ | No seek, take remaining: `4234234278`.
+            var topJoltages  : [Int] = []
+            var seekStart    : Int   = 0
+            var seekEnd      : Int
 
-            for joltage in bankJoltages
+            for requiredSuffixCount in (1...self.batteriesPerBank).reversed()
             {
-                while ( (false == stack.isEmpty)
-                        && (stack.last! < joltage)
-                        && removalsLeft > 0 )
+                seekEnd = (bankJoltages.count - requiredSuffixCount)
+                guard ( seekStart < seekEnd ) else
                 {
-                    stack.removeLast()
-                    removalsLeft -= 1
+                    topJoltages.append(contentsOf: bankJoltages[seekStart...])
+                    break
                 }
-
-                stack.append(joltage)
+                let seekJoltages = bankJoltages[seekStart...seekEnd].enumerated()
+                let (topOffset, topJoltage) = seekJoltages.sorted { $0.element > $1.element } .first!
+                topJoltages.append(topJoltage)
+                seekStart = (seekStart + topOffset + 1)
             }
 
-            // If removals are still needed, remove from the end.
-            while (removalsLeft > 0)
-            {
-                stack.removeLast()
-                removalsLeft -= 1
-            }
-
-            // Multiply each digit by its magnitude to get the bank's joltage.
-            let bankJoltage = stack.reduce(0) { ($0 * 10) + $1 }
+            let bankJoltage = topJoltages.reduce(0) { ($0 * 10) + $1 }
             $0 += bankJoltage
         }
 
